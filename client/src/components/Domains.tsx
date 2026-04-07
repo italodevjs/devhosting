@@ -5,6 +5,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Globe, Check } from "lucide-react";
+import { useLang } from "@/context/LanguageContext";
 
 const tlds = [
   { ext: ".com.br", price: "R$ 39,90", popular: true },
@@ -18,6 +19,7 @@ const tlds = [
 ];
 
 export default function Domains() {
+  const { t } = useLang();
   const [query, setQuery] = useState("");
   const [searched, setSearched] = useState(false);
 
@@ -38,13 +40,13 @@ export default function Domains() {
           className="text-center mb-16"
         >
           <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold text-amber-400 border border-amber-400/20 bg-amber-400/5 uppercase tracking-widest mb-4">
-            Domínios
+            {t.domains.badge}
           </span>
           <h2 className="text-4xl lg:text-6xl font-black text-white mb-4" style={{ fontFamily: 'Syne, sans-serif' }}>
-            Registre seu <span className="gradient-text">Domínio</span>
+            {t.domains.title1} <span className="gradient-text">{t.domains.title2}</span>
           </h2>
           <p className="text-lg text-white/50 max-w-xl mx-auto">
-            Encontre o domínio perfeito para o seu negócio. Transferência gratuita e renovação automática.
+            {t.domains.subtitle}
           </p>
         </motion.div>
 
@@ -75,7 +77,7 @@ export default function Domains() {
               style={{ fontFamily: 'Syne, sans-serif' }}
             >
               <Search className="w-5 h-5" />
-              Buscar
+              {t.domains.searchBtn}
             </motion.button>
           </div>
 
@@ -91,15 +93,11 @@ export default function Domains() {
                 <div className="flex items-center gap-3">
                   <Check className="w-5 h-5 text-emerald-400" />
                   <span className="text-white font-mono-data">{query.includes(".") ? query : `${query}.com.br`}</span>
-                  <span className="text-xs text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full">Disponível</span>
+                  <span className="text-xs text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full">{t.domains.available}</span>
                 </div>
-                <button
-                  onClick={() => window.open(`https://wa.me/5500000000000?text=Quero registrar o domínio: ${query}`, "_blank")}
-                  className="text-sm font-semibold text-amber-400 hover:text-amber-300 transition-colors"
-                  style={{ fontFamily: 'Syne, sans-serif' }}
-                >
-                  Registrar →
-                </button>
+                <span className="text-sm font-semibold text-amber-400/60 italic" style={{ fontFamily: 'Syne, sans-serif' }}>
+                  {t.domains.comingSoon}
+                </span>
               </motion.div>
             )}
           </AnimatePresence>
@@ -120,10 +118,10 @@ export default function Domains() {
               }`}
             >
               {tld.popular && (
-                <div className="text-[10px] text-amber-400 font-semibold uppercase tracking-wide mb-2">Popular</div>
+                <div className="text-[10px] text-amber-400 font-semibold uppercase tracking-wide mb-2">{t.domains.popular}</div>
               )}
               <div className="text-xl font-black text-white font-mono-data mb-1">{tld.ext}</div>
-              <div className="text-sm text-white/50">{tld.price}<span className="text-xs">/ano</span></div>
+              <div className="text-sm text-white/50">{tld.price}<span className="text-xs">{t.domains.perYear}</span></div>
             </motion.div>
           ))}
         </div>

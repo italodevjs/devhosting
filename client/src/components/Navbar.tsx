@@ -1,22 +1,26 @@
 /* DevHosting — Navbar Component
    Design: Obsidian Premium — transparent on top, glass on scroll
-   Sticky header with amber accent and animated mobile menu */
+   Sticky header with amber accent, animated mobile menu and language switcher */
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Server, Zap } from "lucide-react";
-
-const navLinks = [
-  { label: "Hospedagem", href: "#planos" },
-  { label: "VPS", href: "#vps" },
-  { label: "Domínios", href: "#dominios" },
-  { label: "Segurança", href: "#seguranca" },
-  { label: "Pagamentos", href: "#pagamentos" },
-];
+import { Menu, X, Server, ChevronDown } from "lucide-react";
+import { useLang, LANGUAGES } from "@/context/LanguageContext";
 
 export default function Navbar() {
+  const { lang, setLang, t } = useLang();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
+  const langRef = useRef<HTMLDivElement>(null);
+
+  const navLinks = [
+    { label: t.nav.hosting, href: "#planos" },
+    { label: t.nav.vps, href: "#vps" },
+    { label: t.nav.domains, href: "#dominios" },
+    { label: t.nav.security, href: "#seguranca" },
+    { label: t.nav.payments, href: "#pagamentos" },
+  ];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -24,11 +28,23 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (langRef.current && !langRef.current.contains(e.target as Node)) {
+        setLangOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const handleNav = (href: string) => {
     setMobileOpen(false);
     const el = document.querySelector(href);
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
+
+  const currentLang = LANGUAGES.find((l) => l.code === lang)!;
 
   return (
     <>
@@ -77,11 +93,50 @@ export default function Navbar() {
               ))}
             </nav>
 
-            {/* CTA */}
+            {/* Right side: Language + Status + CTA */}
             <div className="hidden lg:flex items-center gap-3">
+              {/* Language Switcher */}
+              <div ref={langRef} className="relative">
+                <button
+                  onClick={() => setLangOpen(!langOpen)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/8 hover:border-white/20 transition-all text-sm text-white/70 hover:text-white"
+                >
+                  <span className="text-base leading-none">{currentLang.flag}</span>
+                  <span className="font-mono text-xs font-semibold">{currentLang.label}</span>
+                  <ChevronDown className={`w-3 h-3 transition-transform ${langOpen ? "rotate-180" : ""}`} />
+                </button>
+
+                <AnimatePresence>
+                  {langOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 6, scale: 0.96 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 6, scale: 0.96 }}
+                      transition={{ duration: 0.15 }}
+                      className="absolute right-0 top-full mt-2 w-40 rounded-xl border border-white/10 overflow-hidden shadow-2xl"
+                      style={{ background: "oklch(0.11 0.005 285)" }}
+                    >
+                      {LANGUAGES.map((l) => (
+                        <button
+                          key={l.code}
+                          onClick={() => { setLang(l.code); setLangOpen(false); }}
+                          className={`w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm transition-all hover:bg-white/6 ${
+                            lang === l.code ? "text-amber-400 bg-amber-400/5" : "text-white/70 hover:text-white"
+                          }`}
+                        >
+                          <span className="text-base">{l.flag}</span>
+                          <span>{l.name}</span>
+                          {lang === l.code && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-amber-400" />}
+                        </button>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
               <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-dot" />
-                <span className="text-xs text-emerald-400 font-medium font-mono-data">ONLINE</span>
+                <span className="text-xs text-emerald-400 font-medium font-mono-data">{t.nav.online}</span>
               </div>
               <motion.button
                 whileHover={{ scale: 1.04 }}
@@ -90,17 +145,57 @@ export default function Navbar() {
                 className="px-5 py-2.5 rounded-xl text-sm font-semibold text-black shimmer shadow-[0_0_20px_oklch(0.75_0.18_75/0.3)] hover:shadow-[0_0_30px_oklch(0.75_0.18_75/0.5)] transition-shadow"
                 style={{ fontFamily: 'Syne, sans-serif' }}
               >
-                Começar Agora
+                {t.nav.start}
               </motion.button>
             </div>
 
-            {/* Mobile Menu Button */}
-            <button
-              className="lg:hidden p-2 text-white/70 hover:text-white transition-colors"
-              onClick={() => setMobileOpen(!mobileOpen)}
-            >
-              {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+            {/* Mobile: Language + Menu Button */}
+            <div className="flex lg:hidden items-center gap-2">
+              {/* Mobile Language Switcher */}
+              <div ref={undefined} className="relative">
+                <button
+                  onClick={() => setLangOpen(!langOpen)}
+                  className="flex items-center gap-1 px-2 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white/70"
+                >
+                  <span className="text-sm">{currentLang.flag}</span>
+                  <span className="font-mono text-xs font-semibold">{currentLang.label}</span>
+                  <ChevronDown className={`w-3 h-3 transition-transform ${langOpen ? "rotate-180" : ""}`} />
+                </button>
+
+                <AnimatePresence>
+                  {langOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 6, scale: 0.96 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 6, scale: 0.96 }}
+                      transition={{ duration: 0.15 }}
+                      className="absolute right-0 top-full mt-2 w-36 rounded-xl border border-white/10 overflow-hidden shadow-2xl z-50"
+                      style={{ background: "oklch(0.11 0.005 285)" }}
+                    >
+                      {LANGUAGES.map((l) => (
+                        <button
+                          key={l.code}
+                          onClick={() => { setLang(l.code); setLangOpen(false); }}
+                          className={`w-full flex items-center gap-2 px-3 py-2.5 text-sm transition-all hover:bg-white/6 ${
+                            lang === l.code ? "text-amber-400 bg-amber-400/5" : "text-white/70 hover:text-white"
+                          }`}
+                        >
+                          <span className="text-base">{l.flag}</span>
+                          <span>{l.name}</span>
+                        </button>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              <button
+                className="p-2 text-white/70 hover:text-white transition-colors"
+                onClick={() => setMobileOpen(!mobileOpen)}
+              >
+                {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+            </div>
           </div>
         </div>
       </motion.header>
@@ -137,7 +232,7 @@ export default function Navbar() {
                 className="mt-2 px-5 py-3 rounded-xl text-sm font-semibold text-black shimmer text-center"
                 style={{ fontFamily: 'Syne, sans-serif' }}
               >
-                Começar Agora
+                {t.nav.start}
               </motion.button>
             </div>
           </motion.div>

@@ -4,27 +4,24 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageSquare, X, Send, Bot, User, Loader2, Sparkles } from "lucide-react";
+import { useLang } from "@/context/LanguageContext";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
 }
 
-const SUGGESTIONS = [
-  "Qual plano é ideal para meu site?",
-  "Vocês aceitam Bitcoin?",
-  "Como funciona o VPS?",
-  "Preço do domínio .com.br?",
-];
-
 export default function AIChatButton() {
+  const { t } = useLang();
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      role: "assistant",
-      content: "Olá! 👋 Sou a IA da DevHosting. Como posso te ajudar?",
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [initialized, setInitialized] = useState(false);
+
+  // Reset greeting when language changes
+  useEffect(() => {
+    setMessages([{ role: "assistant", content: t.chat.suggestions[0] ? `Olá! 👋 ${t.chat.online === "Online agora" ? "Sou a IA da DevHosting. Como posso te ajudar?" : t.chat.online === "Online now" ? "I'm DevHosting AI. How can I help you?" : t.chat.online === "En línea ahora" ? "Soy la IA de DevHosting. ¿Cómo puedo ayudarte?" : "Я ИИ DevHosting. Чем могу помочь?"}` : "Olá! 👋 Sou a IA da DevHosting. Como posso te ajudar?" }]);
+    setInitialized(true);
+  }, [t]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -130,7 +127,7 @@ export default function AIChatButton() {
                   </p>
                   <div style={{ display: "flex", alignItems: "center", gap: "0.375rem" }}>
                     <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#34d399", display: "inline-block" }} />
-                    <span style={{ color: "#34d399", fontSize: "0.6875rem" }}>Online agora</span>
+                    <span style={{ color: "#34d399", fontSize: "0.6875rem" }}>{t.chat.online}</span>
                   </div>
                 </div>
               </div>
@@ -231,9 +228,9 @@ export default function AIChatButton() {
               )}
 
               {/* Suggestions */}
-              {messages.length === 1 && !isLoading && (
+              {messages.length === 1 && !isLoading && initialized && (
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "0.375rem", marginTop: "0.25rem" }}>
-                  {SUGGESTIONS.map((s, i) => (
+                  {t.chat.suggestions.map((s, i) => (
                     <motion.button
                       key={i}
                       initial={{ opacity: 0, scale: 0.9 }}
@@ -281,7 +278,7 @@ export default function AIChatButton() {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && sendMessage()}
-                  placeholder="Pergunte algo..."
+                  placeholder={t.chat.placeholder}
                   disabled={isLoading}
                   style={{
                     flex: 1, background: "transparent", border: "none", outline: "none",
@@ -307,7 +304,7 @@ export default function AIChatButton() {
                 </button>
               </div>
               <p style={{ textAlign: "center", fontSize: "0.625rem", color: "rgba(255,255,255,0.18)", margin: "0.375rem 0 0" }}>
-                Powered by LLaMA 3 · DevHosting IA
+{t.chat.poweredBy}
               </p>
             </div>
           </motion.div>

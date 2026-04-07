@@ -4,88 +4,29 @@
 
 import { motion } from "framer-motion";
 import { Globe, Zap, Lock, TrendingUp } from "lucide-react";
+import { useLang } from "@/context/LanguageContext";
 
 const CRYPTO_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663504481998/2EqK77EzANN3ZXvZMJ4rig/crypto_payments-2CTQgcuQfQW26zY8b2sNLn.webp";
 
 const paymentMethods = [
-  {
-    name: "Bitcoin",
-    symbol: "BTC",
-    color: "text-orange-400",
-    bg: "bg-orange-400/10",
-    border: "border-orange-400/20",
-    icon: "₿",
-  },
-  {
-    name: "Ethereum",
-    symbol: "ETH",
-    color: "text-purple-400",
-    bg: "bg-purple-400/10",
-    border: "border-purple-400/20",
-    icon: "Ξ",
-  },
-  {
-    name: "USDT",
-    symbol: "USDT",
-    color: "text-emerald-400",
-    bg: "bg-emerald-400/10",
-    border: "border-emerald-400/20",
-    icon: "₮",
-  },
-  {
-    name: "Pix",
-    symbol: "BRL",
-    color: "text-cyan-400",
-    bg: "bg-cyan-400/10",
-    border: "border-cyan-400/20",
-    icon: "⚡",
-  },
-  {
-    name: "Stripe",
-    symbol: "USD/EUR",
-    color: "text-indigo-400",
-    bg: "bg-indigo-400/10",
-    border: "border-indigo-400/20",
-    icon: "S",
-  },
-  {
-    name: "PayPal",
-    symbol: "Global",
-    color: "text-blue-400",
-    bg: "bg-blue-400/10",
-    border: "border-blue-400/20",
-    icon: "P",
-  },
-];
-
-const benefits = [
-  {
-    icon: <Globe className="w-5 h-5" />,
-    title: "Aceite de qualquer país",
-    desc: "Receba em USD, EUR, BRL e criptomoedas sem fronteiras.",
-    color: "text-amber-400",
-  },
-  {
-    icon: <Zap className="w-5 h-5" />,
-    title: "Confirmação instantânea",
-    desc: "Pagamentos via Pix são confirmados em segundos.",
-    color: "text-cyan-400",
-  },
-  {
-    icon: <Lock className="w-5 h-5" />,
-    title: "100% Seguro",
-    desc: "Todos os gateways são criptografados e auditados.",
-    color: "text-emerald-400",
-  },
-  {
-    icon: <TrendingUp className="w-5 h-5" />,
-    title: "Taxas competitivas",
-    desc: "Menores taxas do mercado para transações internacionais.",
-    color: "text-indigo-400",
-  },
+  { name: "Bitcoin", symbol: "BTC", color: "text-orange-400", bg: "bg-orange-400/10", border: "border-orange-400/20", icon: "₿" },
+  { name: "Ethereum", symbol: "ETH", color: "text-purple-400", bg: "bg-purple-400/10", border: "border-purple-400/20", icon: "Ξ" },
+  { name: "USDT", symbol: "USDT", color: "text-emerald-400", bg: "bg-emerald-400/10", border: "border-emerald-400/20", icon: "₮" },
+  { name: "Pix", symbol: "BRL", color: "text-cyan-400", bg: "bg-cyan-400/10", border: "border-cyan-400/20", icon: "⚡" },
+  { name: "Stripe", symbol: "USD/EUR", color: "text-indigo-400", bg: "bg-indigo-400/10", border: "border-indigo-400/20", icon: "S" },
+  { name: "PayPal", symbol: "Global", color: "text-blue-400", bg: "bg-blue-400/10", border: "border-blue-400/20", icon: "P" },
 ];
 
 export default function Payments() {
+  const { t } = useLang();
+
+  const benefits = [
+    { icon: <Globe className="w-5 h-5" />, title: t.payments.ben1title, desc: t.payments.ben1, color: "text-amber-400" },
+    { icon: <Zap className="w-5 h-5" />, title: t.payments.ben2title, desc: t.payments.ben2, color: "text-cyan-400" },
+    { icon: <Lock className="w-5 h-5" />, title: t.payments.ben3title, desc: t.payments.ben3, color: "text-emerald-400" },
+    { icon: <TrendingUp className="w-5 h-5" />, title: t.payments.ben4title, desc: t.payments.ben4, color: "text-indigo-400" },
+  ];
+
   return (
     <section id="pagamentos" className="py-24 lg:py-32 relative overflow-hidden">
       {/* Background */}
@@ -102,13 +43,13 @@ export default function Payments() {
           className="text-center mb-12 sm:mb-16"
         >
           <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold text-indigo-400 border border-indigo-400/20 bg-indigo-400/5 uppercase tracking-widest mb-4">
-            Pagamentos Globais
+            {t.payments.badge}
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-4" style={{ fontFamily: 'Syne, sans-serif' }}>
-            Pague como <span className="gradient-text">quiser</span>
+            {t.payments.title1} <span className="gradient-text">{t.payments.title2}</span>
           </h2>
           <p className="text-sm sm:text-base md:text-lg text-white/50 max-w-xl mx-auto">
-            Aceitamos as principais criptomoed as, cartoes internacionais e Pix. Voce escolhe a moeda, nos cuidamos do resto.
+            {t.payments.subtitle}
           </p>
         </motion.div>
 
@@ -123,13 +64,13 @@ export default function Payments() {
             <div className="relative rounded-2xl overflow-hidden">
               <img
                 src={CRYPTO_IMG}
-                alt="Pagamentos Crypto DevHosting"
+                alt="DevHosting Crypto Payments"
                 className="w-full h-64 object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[oklch(0.09_0.005_285/0.8)] to-transparent" />
               <div className="absolute bottom-4 left-4 right-4">
                 <p className="text-white/60 text-sm font-mono-data">
-                  Aceite pagamentos de qualquer lugar do mundo
+                  {t.payments.imageCaption}
                 </p>
               </div>
             </div>
@@ -183,7 +124,7 @@ export default function Payments() {
 
             {/* Currency display */}
             <div className="glass-card rounded-xl border border-amber-400/15 p-5">
-              <p className="text-xs text-white/40 uppercase tracking-widest mb-3 font-mono-data">Moedas Aceitas</p>
+              <p className="text-xs text-white/40 uppercase tracking-widest mb-3 font-mono-data">{t.payments.currencies}</p>
               <div className="flex flex-wrap gap-2">
                 {["BRL", "USD", "EUR", "BTC", "ETH", "USDT", "LTC", "BNB"].map((cur) => (
                   <span key={cur} className="px-3 py-1 rounded-lg bg-white/5 text-white/60 text-xs font-mono-data border border-white/5">

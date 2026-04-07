@@ -3,16 +3,19 @@
    Links, contact info, and social media */
 
 import { motion } from "framer-motion";
-import { Server, MessageCircle, Mail, Instagram, Github } from "lucide-react";
-
-const footerLinks = {
-  Hospedagem: ["Plano Starter", "Plano Pro", "Plano Business", "Hospedagem WordPress", "Hospedagem E-commerce"],
-  VPS: ["VPS Nano", "VPS Power", "VPS Ultra", "Servidores Dedicados", "Cloud Servers"],
-  Domínios: ["Registrar Domínio", "Transferir Domínio", "Extensões Disponíveis", "Whois", "DNS Gerenciado"],
-  Suporte: ["Central de Ajuda", "Status dos Servidores", "Contato via WhatsApp", "Documentação", "SLA & Uptime"],
-};
+import { Server, Mail, Instagram, Github } from "lucide-react";
+import { useLang } from "@/context/LanguageContext";
 
 export default function Footer() {
+  const { t } = useLang();
+
+  const footerLinks = {
+    [t.footer.hosting]: ["Starter", "Pro", "Business", "WordPress", "E-commerce"],
+    VPS: ["VPS Nano", "VPS Power", "VPS Ultra", "Dedicados", "Cloud"],
+    [t.footer.company]: [t.footer.about, t.footer.blog, t.footer.careers, t.footer.contact],
+    [t.footer.support]: [t.footer.docs, t.footer.status, t.footer.privacy, t.footer.terms],
+  };
+
   return (
     <footer className="relative border-t border-white/5 pt-16 pb-8">
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-400/20 to-transparent" />
@@ -31,18 +34,9 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-sm text-white/40 leading-relaxed mb-6">
-              Hospedagem de elite com segurança certificada pela Google. Infraestrutura dedicada para desenvolvedores e empresas.
+              {t.footer.tagline}
             </p>
             <div className="flex items-center gap-3">
-              <motion.a
-                whileHover={{ scale: 1.1 }}
-                href="https://wa.me/5500000000000"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-xl glass-card border border-white/8 flex items-center justify-center text-white/50 hover:text-emerald-400 hover:border-emerald-400/30 transition-colors"
-              >
-                <MessageCircle className="w-4 h-4" />
-              </motion.a>
               <motion.a
                 whileHover={{ scale: 1.1 }}
                 href="mailto:contato@devhosting.com.br"
@@ -53,6 +47,7 @@ export default function Footer() {
               <motion.a
                 whileHover={{ scale: 1.1 }}
                 href="#"
+                onClick={(e) => e.preventDefault()}
                 className="w-9 h-9 rounded-xl glass-card border border-white/8 flex items-center justify-center text-white/50 hover:text-pink-400 hover:border-pink-400/30 transition-colors"
               >
                 <Instagram className="w-4 h-4" />
@@ -60,6 +55,7 @@ export default function Footer() {
               <motion.a
                 whileHover={{ scale: 1.1 }}
                 href="#"
+                onClick={(e) => e.preventDefault()}
                 className="w-9 h-9 rounded-xl glass-card border border-white/8 flex items-center justify-center text-white/50 hover:text-white hover:border-white/30 transition-colors"
               >
                 <Github className="w-4 h-4" />
@@ -93,16 +89,16 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-white/5 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-white/30 font-mono-data">
-            © 2025 DevHosting. Todos os direitos reservados.
+            © 2025 DevHosting. {t.footer.rights}
           </p>
           <div className="flex items-center gap-6">
-            <a href="#" onClick={(e) => e.preventDefault()} className="text-xs text-white/30 hover:text-white/60 transition-colors">Termos de Uso</a>
-            <a href="#" onClick={(e) => e.preventDefault()} className="text-xs text-white/30 hover:text-white/60 transition-colors">Privacidade</a>
+            <a href="#" onClick={(e) => e.preventDefault()} className="text-xs text-white/30 hover:text-white/60 transition-colors">{t.footer.terms}</a>
+            <a href="#" onClick={(e) => e.preventDefault()} className="text-xs text-white/30 hover:text-white/60 transition-colors">{t.footer.privacy}</a>
             <a href="#" onClick={(e) => e.preventDefault()} className="text-xs text-white/30 hover:text-white/60 transition-colors">SLA</a>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-emerald-400 pulse-dot" />
-            <span className="text-xs text-emerald-400 font-mono-data">Todos os sistemas operacionais</span>
+            <span className="text-xs text-emerald-400 font-mono-data">{t.nav.online}</span>
           </div>
         </div>
       </div>

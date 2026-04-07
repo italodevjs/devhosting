@@ -4,55 +4,58 @@
 
 import { motion } from "framer-motion";
 import { Shield, Lock, Eye, Cpu, RefreshCw, AlertTriangle } from "lucide-react";
+import { useLang } from "@/context/LanguageContext";
 
 const SECURITY_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663504481998/2EqK77EzANN3ZXvZMJ4rig/security_section-LMxm7RSL94SUjPWveeBe98.webp";
 
-const features = [
-  {
-    icon: <Shield className="w-6 h-6" />,
-    title: "DDoS Protection",
-    desc: "Proteção contra ataques de negação de serviço em todas as camadas de rede.",
-    color: "text-amber-400",
-    bg: "bg-amber-400/8",
-  },
-  {
-    icon: <Lock className="w-6 h-6" />,
-    title: "SSL/TLS Grátis",
-    desc: "Certificados SSL automáticos via Let's Encrypt em todos os planos.",
-    color: "text-emerald-400",
-    bg: "bg-emerald-400/8",
-  },
-  {
-    icon: <Eye className="w-6 h-6" />,
-    title: "Monitoramento 24/7",
-    desc: "Sistemas de detecção de intrusão (IDS) ativos continuamente.",
-    color: "text-blue-400",
-    bg: "bg-blue-400/8",
-  },
-  {
-    icon: <Cpu className="w-6 h-6" />,
-    title: "Firewall Avançado",
-    desc: "WAF (Web Application Firewall) com regras atualizadas em tempo real.",
-    color: "text-purple-400",
-    bg: "bg-purple-400/8",
-  },
-  {
-    icon: <RefreshCw className="w-6 h-6" />,
-    title: "Backup Automático",
-    desc: "Snapshots diários com retenção de 30 dias e restauração em 1 clique.",
-    color: "text-cyan-400",
-    bg: "bg-cyan-400/8",
-  },
-  {
-    icon: <AlertTriangle className="w-6 h-6" />,
-    title: "Detecção de Malware",
-    desc: "Varredura automática e isolamento de ameaças antes que causem danos.",
-    color: "text-rose-400",
-    bg: "bg-rose-400/8",
-  },
-];
-
 export default function Security() {
+  const { t } = useLang();
+
+  const features = [
+    {
+      icon: <Shield className="w-6 h-6" />,
+      title: "DDoS Protection",
+      desc: t.security.feat1,
+      color: "text-amber-400",
+      bg: "bg-amber-400/8",
+    },
+    {
+      icon: <Lock className="w-6 h-6" />,
+      title: "SSL/TLS",
+      desc: t.security.feat2,
+      color: "text-emerald-400",
+      bg: "bg-emerald-400/8",
+    },
+    {
+      icon: <Eye className="w-6 h-6" />,
+      title: t.security.feat3title,
+      desc: t.security.feat3,
+      color: "text-blue-400",
+      bg: "bg-blue-400/8",
+    },
+    {
+      icon: <Cpu className="w-6 h-6" />,
+      title: "Firewall WAF",
+      desc: t.security.feat4,
+      color: "text-purple-400",
+      bg: "bg-purple-400/8",
+    },
+    {
+      icon: <RefreshCw className="w-6 h-6" />,
+      title: t.security.feat5title,
+      desc: t.security.feat5,
+      color: "text-cyan-400",
+      bg: "bg-cyan-400/8",
+    },
+    {
+      icon: <AlertTriangle className="w-6 h-6" />,
+      title: t.security.feat6title,
+      desc: t.security.feat6,
+      color: "text-rose-400",
+      bg: "bg-rose-400/8",
+    },
+  ];
+
   return (
     <section id="seguranca" className="py-24 lg:py-32 relative overflow-hidden">
       {/* Background glow */}
@@ -67,13 +70,13 @@ export default function Security() {
           className="text-center mb-12 sm:mb-16"
         >
           <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold text-emerald-400 border border-emerald-400/20 bg-emerald-400/5 uppercase tracking-widest mb-4">
-            Segurança de Elite
+            {t.security.badge}
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-4" style={{ fontFamily: 'Syne, sans-serif' }}>
-            Protegido por quem <span className="gradient-text">entende</span>
+            {t.security.title1} <span className="gradient-text">{t.security.title2}</span>
           </h2>
           <p className="text-sm sm:text-base md:text-lg text-white/50 max-w-xl mx-auto">
-            Nossa infraestrutura é gerenciada por um especialista certificado pela Google em Cybersecurity.
+            {t.security.subtitle}
           </p>
         </motion.div>
 
@@ -89,7 +92,7 @@ export default function Security() {
             <div className="relative overflow-hidden h-52 lg:h-64">
               <img
                 src={SECURITY_IMG}
-                alt="Segurança DevHosting"
+                alt="DevHosting Security"
                 className="w-full h-full object-cover opacity-80"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[oklch(0.09_0.005_285)] via-transparent to-transparent" />
@@ -100,10 +103,10 @@ export default function Security() {
                 <span className="text-xs text-amber-400 font-semibold">Google Certified</span>
               </div>
               <h3 className="text-2xl font-black text-white" style={{ fontFamily: 'Syne, sans-serif' }}>
-                Certificação Google Cybersecurity
+                {t.security.certTitle}
               </h3>
               <p className="text-sm text-white/50 leading-relaxed">
-                Nossa equipe é certificada pelo programa profissional da Google em Cybersecurity, cobrindo fundamentos de segurança, gerenciamento de riscos, redes, SIEM, IDS e automação com Python.
+                {t.security.certDesc}
               </p>
               <div className="mt-auto pt-4 border-t border-white/5">
                 <div className="font-mono-data text-xs text-white/30 space-y-1">

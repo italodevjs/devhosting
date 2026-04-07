@@ -5,6 +5,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Shield, Zap, Globe } from "lucide-react";
+import { useLang } from "@/context/LanguageContext";
 
 const HERO_BG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663504481998/2EqK77EzANN3ZXvZMJ4rig/hero_bg-3YUq3vQqqnWLgejJiSxeYs.webp";
 
@@ -37,21 +38,14 @@ function useCounter(target: number, duration: number = 2000) {
   return { count, ref };
 }
 
-const stats = [
-  { label: "Uptime Garantido", value: 99.9, suffix: "%", prefix: "" },
-  { label: "Clientes Ativos", value: 1200, suffix: "+", prefix: "" },
-  { label: "Servidores Online", value: 48, suffix: "", prefix: "" },
-  { label: "Suporte", value: 24, suffix: "/7", prefix: "" },
-];
-
-function StatCard({ stat }: { stat: typeof stats[0] }) {
-  const { count, ref } = useCounter(stat.value, 2000);
+function StatCard({ value, suffix, label }: { value: number; suffix: string; label: string }) {
+  const { count, ref } = useCounter(value, 2000);
   return (
     <div ref={ref} className="text-center">
       <div className="font-mono-data text-3xl lg:text-4xl font-bold gradient-text">
-        {stat.prefix}{stat.value === 99.9 ? "99.9" : count}{stat.suffix}
+        {value === 99.9 ? "99.9" : count}{suffix}
       </div>
-      <div className="text-xs text-white/40 mt-1 uppercase tracking-widest">{stat.label}</div>
+      <div className="text-xs text-white/40 mt-1 uppercase tracking-widest">{label}</div>
     </div>
   );
 }
@@ -100,10 +94,19 @@ function Terminal() {
 }
 
 export default function Hero() {
+  const { t } = useLang();
+
   const handleNav = (href: string) => {
     const el = document.querySelector(href);
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
+
+  const stats = [
+    { label: t.hero.stat1, value: 99.9, suffix: "%" },
+    { label: "1200+", value: 1200, suffix: "+" },
+    { label: t.hero.stat3, value: 48, suffix: "" },
+    { label: t.hero.stat4, value: 24, suffix: "/7" },
+  ];
 
   return (
     <section className="relative min-h-screen flex flex-col overflow-hidden">
@@ -129,7 +132,7 @@ export default function Hero() {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card border border-amber-400/20 text-amber-400 text-sm font-medium mb-6"
           >
             <Shield className="w-4 h-4" />
-            <span>Certificado Google Cybersecurity</span>
+            <span>{t.hero.badge}</span>
           </motion.div>
 
           {/* Headline */}
@@ -140,11 +143,11 @@ export default function Hero() {
             className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black text-white leading-[0.95] tracking-tight mb-4 sm:mb-6"
             style={{ fontFamily: 'Syne, sans-serif' }}
           >
-            Hospedagem
+            {t.hero.title1}
             <br />
-            <span className="gradient-text">de Elite</span>
+            <span className="gradient-text">{t.hero.title2}</span>
             <br />
-            <span className="text-white/80">para Devs</span>
+            <span className="text-white/80">{t.hero.title3}</span>
           </motion.h1>
 
           {/* Subtitle */}
@@ -154,9 +157,9 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.25 }}
             className="text-sm sm:text-base md:text-lg text-white/60 leading-relaxed mb-6 sm:mb-8 max-w-lg mx-auto lg:mx-0"
           >
-            Infraestrutura dedicada com segurança de nível Google. Aceite pagamentos em
-            <span className="text-amber-400 font-medium"> Bitcoin, Ethereum, Stripe e Pix</span>.
-            Suporte técnico 24/7 via WhatsApp.
+            {t.hero.subtitle}
+            <span className="text-amber-400 font-medium"> {t.hero.subtitleHighlight}</span>
+            {t.hero.subtitleEnd}
           </motion.p>
 
           {/* CTAs */}
@@ -173,7 +176,7 @@ export default function Hero() {
               className="flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-base font-bold text-black shimmer shadow-[0_0_30px_oklch(0.75_0.18_75/0.4)] hover:shadow-[0_0_50px_oklch(0.75_0.18_75/0.6)] transition-shadow"
               style={{ fontFamily: 'Syne, sans-serif' }}
             >
-              Ver Planos
+              {t.hero.cta1}
               <ArrowRight className="w-5 h-5" />
             </motion.button>
             <motion.button
@@ -183,7 +186,7 @@ export default function Hero() {
               className="flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-base font-semibold text-white glass-card border border-white/10 hover:border-amber-400/30 transition-colors"
               style={{ fontFamily: 'Syne, sans-serif' }}
             >
-              Nossa Segurança
+              {t.hero.cta2}
             </motion.button>
           </motion.div>
 
@@ -195,9 +198,9 @@ export default function Hero() {
             className="flex items-center gap-6 mt-10 justify-center lg:justify-start"
           >
             {[
-              { icon: <Zap className="w-4 h-4 text-amber-400" />, text: "99.9% Uptime" },
-              { icon: <Shield className="w-4 h-4 text-emerald-400" />, text: "SSL Grátis" },
-              { icon: <Globe className="w-4 h-4 text-blue-400" />, text: "Global CDN" },
+              { icon: <Zap className="w-4 h-4 text-amber-400" />, text: `${t.hero.stat1} 99.9%` },
+              { icon: <Shield className="w-4 h-4 text-emerald-400" />, text: t.hero.stat2 },
+              { icon: <Globe className="w-4 h-4 text-blue-400" />, text: t.hero.stat3 },
             ].map((badge, i) => (
               <div key={i} className="flex items-center gap-1.5 text-sm text-white/50">
                 {badge.icon}
@@ -227,7 +230,7 @@ export default function Hero() {
           className="glass-card rounded-2xl border border-white/5 p-4 sm:p-6 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6"
         >
           {stats.map((stat, i) => (
-            <StatCard key={i} stat={stat} />
+            <StatCard key={i} value={stat.value} suffix={stat.suffix} label={stat.label} />
           ))}
         </motion.div>
       </div>

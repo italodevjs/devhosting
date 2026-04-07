@@ -4,7 +4,8 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Check, Zap, Server, Crown, Globe } from "lucide-react";
+import { Check, Zap, Server, Globe } from "lucide-react";
+import { useLang } from "@/context/LanguageContext";
 
 const HOSTING_PLANS = [
   {
@@ -227,6 +228,7 @@ function VpsCard({ plan, isAnnual }: { plan: typeof VPS_PLANS[0]; isAnnual: bool
 }
 
 export default function Plans() {
+  const { t: tl } = useLang();
   const [isAnnual, setIsAnnual] = useState(false);
   const [tab, setTab] = useState<"hosting" | "vps">("hosting");
 
@@ -241,13 +243,13 @@ export default function Plans() {
           className="text-center mb-12 sm:mb-16"
         >
           <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold text-amber-400 border border-amber-400/20 bg-amber-400/5 uppercase tracking-widest mb-4">
-            Planos & Preços
+            {tl.plans.badge}
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-4" style={{ fontFamily: 'Syne, sans-serif' }}>
-            Escolha seu <span className="gradient-text">Plano</span>
+            {tl.plans.title1} <span className="gradient-text">{tl.plans.title2}</span>
           </h2>
           <p className="text-sm sm:text-base md:text-lg text-white/50 max-w-xl mx-auto">
-            Infraestrutura de alta performance com preços acessíveis. Aceite pagamentos em qualquer moeda.
+            {tl.plans.subtitle}
           </p>
         </motion.div>
 
@@ -264,14 +266,14 @@ export default function Plans() {
                 }`}
                 style={{ fontFamily: 'Syne, sans-serif' }}
               >
-                {t === "hosting" ? "Hospedagem" : "VPS"}
+                {t === "hosting" ? tl.plans.hosting : tl.plans.vps}
               </button>
             ))}
           </div>
 
           {/* Toggle anual */}
           <div className="flex items-center gap-3">
-            <span className={`text-sm ${!isAnnual ? "text-white" : "text-white/40"}`}>Mensal</span>
+            <span className={`text-sm ${!isAnnual ? "text-white" : "text-white/40"}`}>{tl.plans.monthly}</span>
             <button
               onClick={() => setIsAnnual(!isAnnual)}
               className={`relative w-12 h-6 rounded-full transition-colors ${isAnnual ? "bg-amber-400" : "bg-white/10"}`}
@@ -282,7 +284,7 @@ export default function Plans() {
               />
             </button>
             <span className={`text-sm ${isAnnual ? "text-white" : "text-white/40"}`}>
-              Anual
+              {tl.plans.annual}
               <span className="ml-1.5 text-xs text-emerald-400 font-semibold">-25%</span>
             </span>
           </div>
@@ -304,8 +306,8 @@ export default function Plans() {
           className="mt-8 sm:mt-10 text-center"
         >
           <p className="text-white/40 text-xs sm:text-sm">
-            Registro de domínios a partir de <span className="text-amber-400 font-semibold">R$ 39,90/ano</span>.
-            {" "}Extensões: .com.br, .com, .net, .org, .io, .dev e mais.
+            {tl.plans.domainsNote} <span className="text-amber-400 font-semibold">R$ 39,90/ano</span>.
+            {" "}{tl.plans.domainsNote2}
           </p>
         </motion.div>
       </div>
