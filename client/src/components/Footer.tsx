@@ -4,16 +4,40 @@
 
 import { motion } from "framer-motion";
 import { Server, Mail, Instagram, Github } from "lucide-react";
+import { Link } from "wouter";
 import { useLang } from "@/context/LanguageContext";
 
 export default function Footer() {
   const { t } = useLang();
 
-  const footerLinks = {
-    [t.footer.hosting]: ["Starter", "Pro", "Business", "WordPress", "E-commerce"],
-    "VPS": ["VPS Nano", "VPS Power", "VPS Ultra", t.plans.vps, "Cloud"],
-    [t.footer.company]: [t.footer.about, t.footer.blog, t.footer.careers, t.footer.contact],
-    [t.footer.support]: [t.footer.docs, t.footer.status, t.footer.privacy, t.footer.terms],
+  // Links with routes — plans scroll to #plans section, pages navigate to routes
+  const footerLinks: Record<string, { label: string; href: string; external?: boolean }[]> = {
+    [t.footer.hosting]: [
+      { label: "Starter", href: "/#plans" },
+      { label: "Pro", href: "/#plans" },
+      { label: "Business", href: "/#plans" },
+      { label: "WordPress", href: "/#plans" },
+      { label: "E-commerce", href: "/#plans" },
+    ],
+    "VPS": [
+      { label: "VPS Nano", href: "/#plans" },
+      { label: "VPS Power", href: "/#plans" },
+      { label: "VPS Ultra", href: "/#plans" },
+      { label: t.plans.vps, href: "/#plans" },
+      { label: "Cloud", href: "/#plans" },
+    ],
+    [t.footer.company]: [
+      { label: t.footer.about, href: "/sobre" },
+      { label: t.footer.blog, href: "#", external: false },
+      { label: t.footer.careers, href: "#", external: false },
+      { label: t.footer.contact, href: "/contato" },
+    ],
+    [t.footer.support]: [
+      { label: t.footer.docs, href: "/docs" },
+      { label: t.footer.status, href: "/status" },
+      { label: t.footer.privacy, href: "/privacidade" },
+      { label: t.footer.terms, href: "/termos" },
+    ],
   };
 
   return (
@@ -46,16 +70,18 @@ export default function Footer() {
               </motion.a>
               <motion.a
                 whileHover={{ scale: 1.1 }}
-                href="#"
-                onClick={(e) => e.preventDefault()}
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-9 h-9 rounded-xl glass-card border border-white/8 flex items-center justify-center text-white/50 hover:text-pink-400 hover:border-pink-400/30 transition-colors"
               >
                 <Instagram className="w-4 h-4" />
               </motion.a>
               <motion.a
                 whileHover={{ scale: 1.1 }}
-                href="#"
-                onClick={(e) => e.preventDefault()}
+                href="https://github.com/italodevjs/devhosting"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-9 h-9 rounded-xl glass-card border border-white/8 flex items-center justify-center text-white/50 hover:text-white hover:border-white/30 transition-colors"
               >
                 <Github className="w-4 h-4" />
@@ -71,14 +97,23 @@ export default function Footer() {
               </h4>
               <ul className="flex flex-col gap-2.5">
                 {links.map((link) => (
-                  <li key={link}>
-                    <a
-                      href="#"
-                      onClick={(e) => e.preventDefault()}
-                      className="text-sm text-white/40 hover:text-amber-400 transition-colors"
-                    >
-                      {link}
-                    </a>
+                  <li key={link.label}>
+                    {link.href.startsWith("/") && !link.href.startsWith("/#") ? (
+                      <Link href={link.href} className="text-sm text-white/40 hover:text-amber-400 transition-colors">
+                        {link.label}
+                      </Link>
+                    ) : link.href === "#" ? (
+                      <span className="text-sm text-white/25 cursor-default" title="Em breve">
+                        {link.label}
+                      </span>
+                    ) : (
+                      <a
+                        href={link.href}
+                        className="text-sm text-white/40 hover:text-amber-400 transition-colors"
+                      >
+                        {link.label}
+                      </a>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -92,9 +127,9 @@ export default function Footer() {
             © 2025 DevHosting. {t.footer.rights}
           </p>
           <div className="flex items-center gap-6">
-            <a href="#" onClick={(e) => e.preventDefault()} className="text-xs text-white/30 hover:text-white/60 transition-colors">{t.footer.terms}</a>
-            <a href="#" onClick={(e) => e.preventDefault()} className="text-xs text-white/30 hover:text-white/60 transition-colors">{t.footer.privacy}</a>
-            <a href="#" onClick={(e) => e.preventDefault()} className="text-xs text-white/30 hover:text-white/60 transition-colors">SLA</a>
+            <Link href="/termos" className="text-xs text-white/30 hover:text-white/60 transition-colors">{t.footer.terms}</Link>
+            <Link href="/privacidade" className="text-xs text-white/30 hover:text-white/60 transition-colors">{t.footer.privacy}</Link>
+            <Link href="/sla" className="text-xs text-white/30 hover:text-white/60 transition-colors">SLA</Link>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-emerald-400 pulse-dot" />

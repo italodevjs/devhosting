@@ -20,3 +20,11 @@
 - [x] Adicionar script build:vercel no package.json
 - [x] Criar DEPLOY_VERCEL.md com instruções passo a passo
 - [x] Substituir logos de pagamento por logos reais (Bitcoin, Ethereum, USDT, Pix, Stripe, PayPal)
+- [x] Criar página Termos de Uso (/termos)
+- [x] Criar página Política de Privacidade (/privacidade)
+- [x] Criar página SLA (/sla)
+- [x] Criar página Documentação (/docs)
+- [x] Criar página Status dos Servidores (/status)
+- [x] Criar página Sobre Nós (/sobre)
+- [x] Criar página Contato (/contato)
+- [x] Conectar todos os links do rodapé às páginas corretas
