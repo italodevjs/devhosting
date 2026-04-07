@@ -12,7 +12,7 @@ interface Message {
 }
 
 export default function AIChatButton() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [initialized, setInitialized] = useState(false);
@@ -56,6 +56,7 @@ export default function AIChatButton() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           messages: newMessages.map((m) => ({ role: m.role, content: m.content })),
+          lang, // send current language so AI responds in the right language
         }),
       });
       const data = await res.json();
