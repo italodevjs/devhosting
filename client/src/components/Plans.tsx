@@ -153,15 +153,15 @@ function PlanCard({ plan, isAnnual }: { plan: typeof HOSTING_PLANS[0]; isAnnual:
       <motion.button
         whileHover={{ scale: 1.03 }}
         whileTap={{ scale: 0.97 }}
-        className={`w-full py-3 rounded-xl font-semibold text-sm transition-all ${
+        disabled
+        className={`w-full py-3 rounded-xl font-semibold text-sm transition-all opacity-60 cursor-not-allowed ${
           plan.highlight
             ? "shimmer text-black shadow-[0_0_20px_oklch(0.75_0.18_75/0.3)]"
             : "border border-white/10 text-white hover:border-amber-400/30 hover:text-amber-400"
         }`}
         style={{ fontFamily: 'Syne, sans-serif' }}
-        onClick={() => window.open("https://wa.me/5500000000000?text=Olá!%20Quero%20contratar%20o%20plano%20" + plan.name, "_blank")}
       >
-        Contratar via WhatsApp
+        Em Breve
       </motion.button>
     </motion.div>
   );
@@ -212,15 +212,15 @@ function VpsCard({ plan, isAnnual }: { plan: typeof VPS_PLANS[0]; isAnnual: bool
       <motion.button
         whileHover={{ scale: 1.03 }}
         whileTap={{ scale: 0.97 }}
-        className={`w-full py-3 rounded-xl font-semibold text-sm transition-all ${
+        disabled
+        className={`w-full py-3 rounded-xl font-semibold text-sm transition-all opacity-60 cursor-not-allowed ${
           plan.highlight
             ? "shimmer text-black shadow-[0_0_20px_oklch(0.75_0.18_75/0.3)]"
             : "border border-white/10 text-white hover:border-amber-400/30 hover:text-amber-400"
         }`}
         style={{ fontFamily: 'Syne, sans-serif' }}
-        onClick={() => window.open("https://wa.me/5500000000000?text=Olá!%20Quero%20contratar%20o%20" + plan.name, "_blank")}
       >
-        Contratar via WhatsApp
+        Em Breve
       </motion.button>
     </motion.div>
   );
@@ -238,15 +238,15 @@ export default function Plans() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-12 sm:mb-16"
         >
           <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold text-amber-400 border border-amber-400/20 bg-amber-400/5 uppercase tracking-widest mb-4">
             Planos & Preços
           </span>
-          <h2 className="text-4xl lg:text-6xl font-black text-white mb-4" style={{ fontFamily: 'Syne, sans-serif' }}>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-4" style={{ fontFamily: 'Syne, sans-serif' }}>
             Escolha seu <span className="gradient-text">Plano</span>
           </h2>
-          <p className="text-lg text-white/50 max-w-xl mx-auto">
+          <p className="text-sm sm:text-base md:text-lg text-white/50 max-w-xl mx-auto">
             Infraestrutura de alta performance com preços acessíveis. Aceite pagamentos em qualquer moeda.
           </p>
         </motion.div>
@@ -289,7 +289,7 @@ export default function Plans() {
         </div>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
           {tab === "hosting"
             ? HOSTING_PLANS.map((plan, i) => <PlanCard key={i} plan={plan} isAnnual={isAnnual} />)
             : VPS_PLANS.map((plan, i) => <VpsCard key={i} plan={plan} isAnnual={isAnnual} />)
@@ -301,9 +301,9 @@ export default function Plans() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="mt-10 text-center"
+          className="mt-8 sm:mt-10 text-center"
         >
-          <p className="text-white/40 text-sm">
+          <p className="text-white/40 text-xs sm:text-sm">
             Registro de domínios a partir de <span className="text-amber-400 font-semibold">R$ 39,90/ano</span>.
             {" "}Extensões: .com.br, .com, .net, .org, .io, .dev e mais.
           </p>

@@ -64,21 +64,21 @@ export default function Security() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-12 sm:mb-16"
         >
           <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold text-emerald-400 border border-emerald-400/20 bg-emerald-400/5 uppercase tracking-widest mb-4">
             Segurança de Elite
           </span>
-          <h2 className="text-4xl lg:text-6xl font-black text-white mb-4" style={{ fontFamily: 'Syne, sans-serif' }}>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-4" style={{ fontFamily: 'Syne, sans-serif' }}>
             Protegido por quem <span className="gradient-text">entende</span>
           </h2>
-          <p className="text-lg text-white/50 max-w-xl mx-auto">
+          <p className="text-sm sm:text-base md:text-lg text-white/50 max-w-xl mx-auto">
             Nossa infraestrutura é gerenciada por um especialista certificado pela Google em Cybersecurity.
           </p>
         </motion.div>
 
         {/* Bento Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
           {/* Large card: Certification */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -125,7 +125,7 @@ export default function Security() {
               viewport={{ once: true }}
               transition={{ delay: i * 0.08 }}
               whileHover={{ y: -4, transition: { duration: 0.2 } }}
-              className="glass-card rounded-2xl border border-white/6 p-6 flex gap-4 hover:border-white/12 transition-colors"
+              className="glass-card rounded-2xl border border-white/6 p-4 sm:p-6 flex gap-4 hover:border-white/12 transition-colors"
             >
               <div className={`flex-shrink-0 w-12 h-12 rounded-xl ${feat.bg} flex items-center justify-center ${feat.color}`}>
                 {feat.icon}

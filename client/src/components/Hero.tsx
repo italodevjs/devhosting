@@ -118,7 +118,7 @@ export default function Hero() {
       </div>
 
       {/* Content */}
-      <div className="relative container flex flex-col lg:flex-row items-center justify-between gap-12 pt-32 pb-20 lg:pt-40 lg:pb-32 flex-1">
+      <div className="relative container flex flex-col lg:flex-row items-center justify-between gap-8 sm:gap-12 pt-24 pb-12 sm:pt-32 sm:pb-20 lg:pt-40 lg:pb-32 flex-1">
         {/* Left: Text */}
         <div className="flex-1 max-w-2xl text-center lg:text-left">
           {/* Badge */}
@@ -137,7 +137,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-5xl lg:text-7xl font-black text-white leading-[0.95] tracking-tight mb-6"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black text-white leading-[0.95] tracking-tight mb-4 sm:mb-6"
             style={{ fontFamily: 'Syne, sans-serif' }}
           >
             Hospedagem
@@ -152,7 +152,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.25 }}
-            className="text-lg text-white/60 leading-relaxed mb-8 max-w-lg mx-auto lg:mx-0"
+            className="text-sm sm:text-base md:text-lg text-white/60 leading-relaxed mb-6 sm:mb-8 max-w-lg mx-auto lg:mx-0"
           >
             Infraestrutura dedicada com segurança de nível Google. Aceite pagamentos em
             <span className="text-amber-400 font-medium"> Bitcoin, Ethereum, Stripe e Pix</span>.
@@ -212,19 +212,19 @@ export default function Hero() {
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="flex-shrink-0 float-anim"
+          className="flex-shrink-0 float-anim w-full sm:w-auto"
         >
           <Terminal />
         </motion.div>
       </div>
 
       {/* Stats bar */}
-      <div className="relative container pb-16">
+      <div className="relative container pb-12 sm:pb-16">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.7 }}
-          className="glass-card rounded-2xl border border-white/5 p-6 grid grid-cols-2 lg:grid-cols-4 gap-6"
+          className="glass-card rounded-2xl border border-white/5 p-4 sm:p-6 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6"
         >
           {stats.map((stat, i) => (
             <StatCard key={i} stat={stat} />

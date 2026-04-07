@@ -99,20 +99,20 @@ export default function Payments() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-12 sm:mb-16"
         >
           <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold text-indigo-400 border border-indigo-400/20 bg-indigo-400/5 uppercase tracking-widest mb-4">
             Pagamentos Globais
           </span>
-          <h2 className="text-4xl lg:text-6xl font-black text-white mb-4" style={{ fontFamily: 'Syne, sans-serif' }}>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-4" style={{ fontFamily: 'Syne, sans-serif' }}>
             Pague como <span className="gradient-text">quiser</span>
           </h2>
-          <p className="text-lg text-white/50 max-w-xl mx-auto">
-            Aceitamos as principais criptomoedas, cartões internacionais e Pix. Você escolhe a moeda, nós cuidamos do resto.
+          <p className="text-sm sm:text-base md:text-lg text-white/50 max-w-xl mx-auto">
+            Aceitamos as principais criptomoed as, cartoes internacionais e Pix. Voce escolhe a moeda, nos cuidamos do resto.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
           {/* Left: Image + Payment Methods */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
