@@ -10,7 +10,7 @@ import Security from "@/components/Security";
 import Domains from "@/components/Domains";
 import Payments from "@/components/Payments";
 import Footer from "@/components/Footer";
-import WhatsAppButton from "@/components/WhatsAppButton";
+import AIChatButton from "@/components/AIChatButton";
 
 export default function Home() {
   return (
@@ -23,7 +23,7 @@ export default function Home() {
       <Domains />
       <Payments />
       <Footer />
-      <WhatsAppButton />
+      <AIChatButton />
     </div>
   );
 }
