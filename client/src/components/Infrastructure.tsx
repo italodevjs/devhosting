@@ -4,24 +4,27 @@
 
 import { motion } from "framer-motion";
 import { Server, Wifi, HardDrive, Activity } from "lucide-react";
+import { useLang } from "@/context/LanguageContext";
 
 const SERVER_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663504481998/2EqK77EzANN3ZXvZMJ4rig/server_infra-fNVCMpKy2WQVdsgMv3kyZh.webp";
 
-const specs = [
-  { label: "Processadores", value: "AMD EPYC / Intel Xeon", icon: <Activity className="w-5 h-5" />, color: "text-amber-400" },
-  { label: "Armazenamento", value: "NVMe SSD Gen 4", icon: <HardDrive className="w-5 h-5" />, color: "text-cyan-400" },
-  { label: "Conectividade", value: "10 Gbps Uplink", icon: <Wifi className="w-5 h-5" />, color: "text-emerald-400" },
-  { label: "Data Centers", value: "Brasil, EUA, Europa", icon: <Server className="w-5 h-5" />, color: "text-indigo-400" },
-];
-
 const locations = [
-  { city: "São Paulo", country: "BR", latency: "2ms", status: "online" },
-  { city: "Miami", country: "US", latency: "18ms", status: "online" },
-  { city: "Frankfurt", country: "DE", latency: "42ms", status: "online" },
-  { city: "Amsterdam", country: "NL", latency: "48ms", status: "online" },
+  { city: "São Paulo", country: "BR", latency: "2ms" },
+  { city: "Miami", country: "US", latency: "18ms" },
+  { city: "Frankfurt", country: "DE", latency: "42ms" },
+  { city: "Amsterdam", country: "NL", latency: "48ms" },
 ];
 
 export default function Infrastructure() {
+  const { t } = useLang();
+
+  const specs = [
+    { label: t.infra.spec1label, value: "AMD EPYC / Intel Xeon", icon: <Activity className="w-5 h-5" />, color: "text-amber-400" },
+    { label: t.infra.spec2label, value: "NVMe SSD Gen 4", icon: <HardDrive className="w-5 h-5" />, color: "text-cyan-400" },
+    { label: t.infra.spec3label, value: "10 Gbps Uplink", icon: <Wifi className="w-5 h-5" />, color: "text-emerald-400" },
+    { label: t.infra.spec4label, value: t.infra.spec4value, icon: <Server className="w-5 h-5" />, color: "text-indigo-400" },
+  ];
+
   return (
     <section id="vps" className="py-24 lg:py-32 relative overflow-hidden">
       <div className="container">
@@ -33,13 +36,13 @@ export default function Infrastructure() {
           className="text-center mb-16"
         >
           <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold text-cyan-400 border border-cyan-400/20 bg-cyan-400/5 uppercase tracking-widest mb-4">
-            Infraestrutura
+            {t.infra.badge}
           </span>
           <h2 className="text-4xl lg:text-6xl font-black text-white mb-4" style={{ fontFamily: 'Syne, sans-serif' }}>
-            Servidores <span className="gradient-text">Dedicados</span>
+            {t.infra.title1} <span className="gradient-text">{t.infra.title2}</span>
           </h2>
           <p className="text-lg text-white/50 max-w-xl mx-auto">
-            Não somos revenda. Operamos nossa própria infraestrutura dedicada em data centers de classe mundial.
+            {t.infra.subtitle}
           </p>
         </motion.div>
 
@@ -54,7 +57,7 @@ export default function Infrastructure() {
             <div className="relative rounded-2xl overflow-hidden float-anim">
               <img
                 src={SERVER_IMG}
-                alt="Infraestrutura DevHosting"
+                alt="DevHosting Infrastructure"
                 className="w-full h-80 lg:h-96 object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[oklch(0.09_0.005_285/0.6)] to-transparent" />
@@ -70,7 +73,7 @@ export default function Infrastructure() {
               <div className="flex items-center gap-3">
                 <div className="w-3 h-3 rounded-full bg-emerald-400 pulse-dot" />
                 <div>
-                  <div className="text-xs text-white/40 font-mono-data">Uptime</div>
+                  <div className="text-xs text-white/40 font-mono-data">{t.infra.uptime}</div>
                   <div className="text-xl font-black text-white font-mono-data">99.9%</div>
                 </div>
               </div>
@@ -137,7 +140,7 @@ export default function Infrastructure() {
               className="w-full py-4 rounded-xl font-bold text-black shimmer shadow-[0_0_20px_oklch(0.75_0.18_75/0.3)]"
               style={{ fontFamily: 'Syne, sans-serif' }}
             >
-              Ver Planos VPS
+              {t.infra.cta}
             </motion.button>
           </motion.div>
         </div>

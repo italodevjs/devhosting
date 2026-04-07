@@ -50,23 +50,25 @@ function StatCard({ value, suffix, label }: { value: number; suffix: string; lab
   );
 }
 
-const terminalLines = [
-  { text: "$ devhosting status --all", delay: 0.5, color: "text-amber-400" },
-  { text: "✓ Servidor BR-01 → ONLINE  [2ms]", delay: 1.0, color: "text-emerald-400" },
-  { text: "✓ SSL/TLS Ativo → SEGURO", delay: 1.5, color: "text-emerald-400" },
-  { text: "✓ DDoS Protection → ATIVO", delay: 2.0, color: "text-emerald-400" },
-  { text: "✓ Backup Automático → OK", delay: 2.5, color: "text-emerald-400" },
-];
-
 function Terminal() {
+  const { t } = useLang();
   const [visibleLines, setVisibleLines] = useState(0);
 
+  const terminalLines = [
+    { text: t.terminal.cmd, delay: 0.5, color: "text-amber-400" },
+    { text: t.terminal.line1, delay: 1.0, color: "text-emerald-400" },
+    { text: t.terminal.line2, delay: 1.5, color: "text-emerald-400" },
+    { text: t.terminal.line3, delay: 2.0, color: "text-emerald-400" },
+    { text: t.terminal.line4, delay: 2.5, color: "text-emerald-400" },
+  ];
+
   useEffect(() => {
+    setVisibleLines(0);
     const timers = terminalLines.map((line, i) =>
       setTimeout(() => setVisibleLines(i + 1), line.delay * 1000)
     );
     return () => timers.forEach(clearTimeout);
-  }, []);
+  }, [t]);
 
   return (
     <div className="glass-card rounded-2xl p-4 font-mono-data text-sm w-full max-w-sm">

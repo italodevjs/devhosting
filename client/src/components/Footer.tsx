@@ -11,7 +11,7 @@ export default function Footer() {
 
   const footerLinks = {
     [t.footer.hosting]: ["Starter", "Pro", "Business", "WordPress", "E-commerce"],
-    VPS: ["VPS Nano", "VPS Power", "VPS Ultra", "Dedicados", "Cloud"],
+    "VPS": ["VPS Nano", "VPS Power", "VPS Ultra", t.plans.vps, "Cloud"],
     [t.footer.company]: [t.footer.about, t.footer.blog, t.footer.careers, t.footer.contact],
     [t.footer.support]: [t.footer.docs, t.footer.status, t.footer.privacy, t.footer.terms],
   };

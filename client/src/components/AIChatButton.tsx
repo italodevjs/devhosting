@@ -19,7 +19,7 @@ export default function AIChatButton() {
 
   // Reset greeting when language changes
   useEffect(() => {
-    setMessages([{ role: "assistant", content: t.chat.suggestions[0] ? `Olá! 👋 ${t.chat.online === "Online agora" ? "Sou a IA da DevHosting. Como posso te ajudar?" : t.chat.online === "Online now" ? "I'm DevHosting AI. How can I help you?" : t.chat.online === "En línea ahora" ? "Soy la IA de DevHosting. ¿Cómo puedo ayudarte?" : "Я ИИ DevHosting. Чем могу помочь?"}` : "Olá! 👋 Sou a IA da DevHosting. Como posso te ajudar?" }]);
+    setMessages([{ role: "assistant", content: t.chat.greeting }]);
     setInitialized(true);
   }, [t]);
   const [input, setInput] = useState("");
@@ -61,12 +61,12 @@ export default function AIChatButton() {
       const data = await res.json();
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: data.reply || "Tente novamente em instantes." },
+        { role: "assistant", content: data.reply || t.chat.errorRetry },
       ]);
     } catch {
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: "Erro de conexão. Tente novamente." },
+        { role: "assistant", content: t.chat.errorConn },
       ]);
     } finally {
       setIsLoading(false);
