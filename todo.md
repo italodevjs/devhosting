@@ -19,3 +19,4 @@
 - [x] Criar api/chat.ts como Serverless Function para o Vercel
 - [x] Adicionar script build:vercel no package.json
 - [x] Criar DEPLOY_VERCEL.md com instruções passo a passo
+- [x] Substituir logos de pagamento por logos reais (Bitcoin, Ethereum, USDT, Pix, Stripe, PayPal)

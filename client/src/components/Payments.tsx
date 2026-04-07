@@ -1,6 +1,6 @@
 /* DevHosting — Payments Section
    Design: Obsidian Premium — Global payments with crypto, Stripe, Pix
-   Animated payment method icons with floating effect */
+   Animated payment method icons with real logos */
 
 import { motion } from "framer-motion";
 import { Globe, Zap, Lock, TrendingUp } from "lucide-react";
@@ -8,13 +8,51 @@ import { useLang } from "@/context/LanguageContext";
 
 const CRYPTO_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663504481998/2EqK77EzANN3ZXvZMJ4rig/crypto_payments-2CTQgcuQfQW26zY8b2sNLn.webp";
 
+const CDN = "https://d2xsxph8kpxj0f.cloudfront.net/310519663504481998/2EqK77EzANN3ZXvZMJ4rig";
+
 const paymentMethods = [
-  { name: "Bitcoin", symbol: "BTC", color: "text-orange-400", bg: "bg-orange-400/10", border: "border-orange-400/20", icon: "₿" },
-  { name: "Ethereum", symbol: "ETH", color: "text-purple-400", bg: "bg-purple-400/10", border: "border-purple-400/20", icon: "Ξ" },
-  { name: "USDT", symbol: "USDT", color: "text-emerald-400", bg: "bg-emerald-400/10", border: "border-emerald-400/20", icon: "₮" },
-  { name: "Pix", symbol: "BRL", color: "text-cyan-400", bg: "bg-cyan-400/10", border: "border-cyan-400/20", icon: "⚡" },
-  { name: "Stripe", symbol: "USD/EUR", color: "text-indigo-400", bg: "bg-indigo-400/10", border: "border-indigo-400/20", icon: "S" },
-  { name: "PayPal", symbol: "Global", color: "text-blue-400", bg: "bg-blue-400/10", border: "border-blue-400/20", icon: "P" },
+  {
+    name: "Bitcoin",
+    symbol: "BTC",
+    border: "border-orange-400/20",
+    logo: `${CDN}/bitcoin_9c033b48.png`,
+    bg: "bg-orange-500/10",
+  },
+  {
+    name: "Ethereum",
+    symbol: "ETH",
+    border: "border-purple-400/20",
+    logo: `${CDN}/ethereum_0dc31ad8.png`,
+    bg: "bg-purple-500/10",
+  },
+  {
+    name: "USDT",
+    symbol: "USDT",
+    border: "border-emerald-400/20",
+    logo: `${CDN}/usdt_cf030c63.png`,
+    bg: "bg-emerald-500/10",
+  },
+  {
+    name: "Pix",
+    symbol: "BRL",
+    border: "border-cyan-400/20",
+    logo: `${CDN}/pix_c5c7a4aa.png`,
+    bg: "bg-cyan-500/10",
+  },
+  {
+    name: "Stripe",
+    symbol: "USD/EUR",
+    border: "border-indigo-400/20",
+    logo: `${CDN}/stripe_44be6e3e.png`,
+    bg: "bg-indigo-500/10",
+  },
+  {
+    name: "PayPal",
+    symbol: "Global",
+    border: "border-blue-400/20",
+    logo: `${CDN}/paypal_548e71d9.png`,
+    bg: "bg-blue-500/10",
+  },
 ];
 
 export default function Payments() {
@@ -84,9 +122,15 @@ export default function Payments() {
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.08 }}
                   whileHover={{ y: -4, scale: 1.04 }}
-                  className={`glass-card rounded-xl border ${method.border} p-4 flex flex-col items-center gap-2 cursor-default`}
+                  className={`glass-card rounded-xl border ${method.border} p-4 flex flex-col items-center gap-2 cursor-default ${method.bg}`}
                 >
-                  <span className={`text-2xl font-black ${method.color} font-mono-data`}>{method.icon}</span>
+                  <div className="w-10 h-10 flex items-center justify-center">
+                    <img
+                      src={method.logo}
+                      alt={method.name}
+                      className="w-10 h-10 object-contain"
+                    />
+                  </div>
                   <span className="text-xs font-bold text-white" style={{ fontFamily: 'Syne, sans-serif' }}>{method.name}</span>
                   <span className="text-[10px] text-white/30 font-mono-data">{method.symbol}</span>
                 </motion.div>
