@@ -14,4 +14,8 @@
 - [x] Chat de suporte com IA (Groq/LLaMA 3)
 - [x] Sistema multi-idioma: PT, EN, ES, RU
 - [x] Correção: IA responde no idioma selecionado pelo usuário (PT/EN/ES/RU)
-- [ ] Criar repositório no GitHub "devhosting"
+- [x] Criar repositório no GitHub "devhosting" → https://github.com/italodevjs/devhosting
+- [x] Criar vercel.json com rotas e configurações de build
+- [x] Criar api/chat.ts como Serverless Function para o Vercel
+- [x] Adicionar script build:vercel no package.json
+- [x] Criar DEPLOY_VERCEL.md com instruções passo a passo
