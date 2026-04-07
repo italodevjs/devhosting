@@ -1,6 +1,5 @@
 /* DevHosting — AI Chat Button
-   Design: Obsidian Premium — Floating AI chat powered by LLaMA 3 via Groq
-   Replaces WhatsApp with an intelligent support assistant */
+   Design: Obsidian Premium — Compact floating chat, mobile-first */
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -15,7 +14,7 @@ const SUGGESTIONS = [
   "Qual plano é ideal para meu site?",
   "Vocês aceitam Bitcoin?",
   "Como funciona o VPS?",
-  "Qual o preço de um domínio .com.br?",
+  "Preço do domínio .com.br?",
 ];
 
 export default function AIChatButton() {
@@ -23,7 +22,7 @@ export default function AIChatButton() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "Olá! 👋 Sou a IA da **DevHosting**. Posso te ajudar a escolher o plano ideal, tirar dúvidas sobre domínios, VPS, pagamentos em crypto e muito mais. Como posso te ajudar?",
+      content: "Olá! 👋 Sou a IA da DevHosting. Como posso te ajudar?",
     },
   ]);
   const [input, setInput] = useState("");
@@ -32,14 +31,17 @@ export default function AIChatButton() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-
-  useEffect(() => {
     if (isOpen) {
-      setTimeout(() => inputRef.current?.focus(), 300);
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        inputRef.current?.focus();
+      }, 300);
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   const sendMessage = async (text?: string) => {
     const messageText = text || input.trim();
@@ -59,131 +61,196 @@ export default function AIChatButton() {
           messages: newMessages.map((m) => ({ role: m.role, content: m.content })),
         }),
       });
-
       const data = await res.json();
-      if (data.reply) {
-        setMessages((prev) => [...prev, { role: "assistant", content: data.reply }]);
-      } else {
-        setMessages((prev) => [
-          ...prev,
-          { role: "assistant", content: "Desculpe, tive um problema. Tente novamente em instantes." },
-        ]);
-      }
+      setMessages((prev) => [
+        ...prev,
+        { role: "assistant", content: data.reply || "Tente novamente em instantes." },
+      ]);
     } catch {
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: "Erro de conexão. Verifique sua internet e tente novamente." },
+        { role: "assistant", content: "Erro de conexão. Tente novamente." },
       ]);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const renderMessage = (content: string) => {
-    // Simple markdown bold rendering
-    return content.split("**").map((part, i) =>
+  const renderMessage = (content: string) =>
+    content.split("**").map((part, i) =>
       i % 2 === 1 ? <strong key={i}>{part}</strong> : part
     );
-  };
 
   return (
     <>
-      {/* Chat Window */}
+      {/* Chat Window — fixed size, anchored to bottom-right */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            initial={{ opacity: 0, y: 16, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="fixed bottom-24 right-4 z-50 w-[calc(100vw-2rem)] sm:w-[380px] max-h-[70vh] flex flex-col rounded-2xl overflow-hidden shadow-2xl border border-white/10"
-            style={{ background: "oklch(0.11 0.005 285)" }}
+            exit={{ opacity: 0, y: 16, scale: 0.95 }}
+            transition={{ type: "spring", damping: 28, stiffness: 320 }}
+            style={{
+              position: "fixed",
+              bottom: "5.5rem",
+              right: "1rem",
+              width: "min(340px, calc(100vw - 2rem))",
+              height: "460px",
+              display: "flex",
+              flexDirection: "column",
+              borderRadius: "1.25rem",
+              overflow: "hidden",
+              border: "1px solid rgba(255,255,255,0.08)",
+              background: "oklch(0.11 0.005 285)",
+              boxShadow: "0 24px 60px rgba(0,0,0,0.6)",
+              zIndex: 9999,
+            }}
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-3 border-b border-white/8"
-              style={{ background: "oklch(0.13 0.008 285)" }}>
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-xl shimmer flex items-center justify-center">
-                  <Sparkles className="w-4 h-4 text-black" />
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              padding: "0.75rem 1rem",
+              borderBottom: "1px solid rgba(255,255,255,0.07)",
+              background: "oklch(0.13 0.008 285)",
+              flexShrink: 0,
+            }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.625rem" }}>
+                <div className="shimmer" style={{
+                  width: 32, height: 32, borderRadius: "0.625rem",
+                  display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+                }}>
+                  <Sparkles style={{ width: 15, height: 15, color: "black" }} />
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-white" style={{ fontFamily: "Syne, sans-serif" }}>
+                  <p style={{ color: "white", fontWeight: 700, fontSize: "0.8125rem", fontFamily: "Syne, sans-serif", margin: 0 }}>
                     DevHosting IA
                   </p>
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    <span className="text-xs text-emerald-400">Online agora</span>
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.375rem" }}>
+                    <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#34d399", display: "inline-block" }} />
+                    <span style={{ color: "#34d399", fontSize: "0.6875rem" }}>Online agora</span>
                   </div>
                 </div>
               </div>
               <button
                 onClick={() => setIsOpen(false)}
-                className="w-7 h-7 rounded-lg flex items-center justify-center text-white/40 hover:text-white hover:bg-white/8 transition-all"
+                style={{
+                  width: 28, height: 28, borderRadius: "0.5rem", border: "none",
+                  background: "transparent", cursor: "pointer",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  color: "rgba(255,255,255,0.4)",
+                }}
               >
-                <X className="w-4 h-4" />
+                <X style={{ width: 15, height: 15 }} />
               </button>
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-3 min-h-0" style={{ maxHeight: "calc(70vh - 130px)" }}>
+            <div style={{
+              flex: 1,
+              overflowY: "auto",
+              padding: "0.875rem",
+              display: "flex",
+              flexDirection: "column",
+              gap: "0.625rem",
+            }}>
               {messages.map((msg, i) => (
-                <motion.div
+                <div
                   key={i}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className={`flex gap-2 ${msg.role === "user" ? "flex-row-reverse" : "flex-row"}`}
+                  style={{
+                    display: "flex",
+                    flexDirection: msg.role === "user" ? "row-reverse" : "row",
+                    alignItems: "flex-start",
+                    gap: "0.5rem",
+                  }}
                 >
                   {/* Avatar */}
-                  <div className={`flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center ${
-                    msg.role === "assistant" ? "shimmer" : "bg-white/10 border border-white/10"
-                  }`}>
-                    {msg.role === "assistant" ? (
-                      <Bot className="w-3.5 h-3.5 text-black" />
-                    ) : (
-                      <User className="w-3.5 h-3.5 text-white/60" />
-                    )}
+                  <div
+                    className={msg.role === "assistant" ? "shimmer" : ""}
+                    style={{
+                      width: 26, height: 26, borderRadius: "0.5rem", flexShrink: 0,
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      background: msg.role === "user" ? "rgba(255,255,255,0.08)" : undefined,
+                      border: msg.role === "user" ? "1px solid rgba(255,255,255,0.1)" : undefined,
+                    }}
+                  >
+                    {msg.role === "assistant"
+                      ? <Bot style={{ width: 13, height: 13, color: "black" }} />
+                      : <User style={{ width: 13, height: 13, color: "rgba(255,255,255,0.5)" }} />
+                    }
                   </div>
 
                   {/* Bubble */}
-                  <div className={`max-w-[80%] px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed ${
-                    msg.role === "assistant"
-                      ? "bg-white/6 border border-white/8 text-white/90 rounded-tl-sm"
-                      : "shimmer text-black font-medium rounded-tr-sm"
-                  }`}>
+                  <div
+                    className={msg.role === "user" ? "shimmer" : ""}
+                    style={{
+                      maxWidth: "75%",
+                      padding: "0.5rem 0.75rem",
+                      borderRadius: msg.role === "assistant" ? "0.25rem 1rem 1rem 1rem" : "1rem 0.25rem 1rem 1rem",
+                      fontSize: "0.8125rem",
+                      lineHeight: 1.55,
+                      color: msg.role === "user" ? "black" : "rgba(255,255,255,0.88)",
+                      background: msg.role === "assistant" ? "rgba(255,255,255,0.06)" : undefined,
+                      border: msg.role === "assistant" ? "1px solid rgba(255,255,255,0.07)" : undefined,
+                      fontWeight: msg.role === "user" ? 600 : 400,
+                      wordBreak: "break-word",
+                    }}
+                  >
                     {renderMessage(msg.content)}
                   </div>
-                </motion.div>
+                </div>
               ))}
 
-              {/* Loading */}
+              {/* Loading dots */}
               {isLoading && (
-                <motion.div
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="flex gap-2"
-                >
-                  <div className="w-7 h-7 rounded-lg shimmer flex items-center justify-center flex-shrink-0">
-                    <Bot className="w-3.5 h-3.5 text-black" />
+                <div style={{ display: "flex", alignItems: "flex-start", gap: "0.5rem" }}>
+                  <div className="shimmer" style={{
+                    width: 26, height: 26, borderRadius: "0.5rem", flexShrink: 0,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                  }}>
+                    <Bot style={{ width: 13, height: 13, color: "black" }} />
                   </div>
-                  <div className="px-3.5 py-3 rounded-2xl rounded-tl-sm bg-white/6 border border-white/8 flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-bounce" style={{ animationDelay: "0ms" }} />
-                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-bounce" style={{ animationDelay: "150ms" }} />
-                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-bounce" style={{ animationDelay: "300ms" }} />
+                  <div style={{
+                    padding: "0.625rem 0.875rem",
+                    borderRadius: "0.25rem 1rem 1rem 1rem",
+                    background: "rgba(255,255,255,0.06)",
+                    border: "1px solid rgba(255,255,255,0.07)",
+                    display: "flex", gap: "0.3rem", alignItems: "center",
+                  }}>
+                    {[0, 150, 300].map((delay) => (
+                      <span key={delay} style={{
+                        width: 6, height: 6, borderRadius: "50%", background: "#f59e0b",
+                        display: "inline-block", animation: "bounce 1s infinite",
+                        animationDelay: `${delay}ms`,
+                      }} />
+                    ))}
                   </div>
-                </motion.div>
+                </div>
               )}
 
-              {/* Suggestions (only at start) */}
+              {/* Suggestions */}
               {messages.length === 1 && !isLoading && (
-                <div className="flex flex-wrap gap-2 mt-1">
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "0.375rem", marginTop: "0.25rem" }}>
                   {SUGGESTIONS.map((s, i) => (
                     <motion.button
                       key={i}
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: i * 0.08 }}
+                      transition={{ delay: i * 0.07 }}
                       onClick={() => sendMessage(s)}
-                      className="px-3 py-1.5 rounded-xl text-xs border border-amber-400/20 text-amber-400/80 hover:border-amber-400/50 hover:text-amber-400 hover:bg-amber-400/5 transition-all"
+                      style={{
+                        padding: "0.375rem 0.75rem",
+                        borderRadius: "0.75rem",
+                        border: "1px solid rgba(245,158,11,0.2)",
+                        background: "transparent",
+                        color: "rgba(245,158,11,0.75)",
+                        fontSize: "0.6875rem",
+                        cursor: "pointer",
+                        fontFamily: "inherit",
+                        transition: "all 0.2s",
+                      }}
                     >
                       {s}
                     </motion.button>
@@ -195,8 +262,19 @@ export default function AIChatButton() {
             </div>
 
             {/* Input */}
-            <div className="px-3 py-3 border-t border-white/8" style={{ background: "oklch(0.13 0.008 285)" }}>
-              <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/6 border border-white/10 focus-within:border-amber-400/30 transition-colors">
+            <div style={{
+              padding: "0.625rem 0.75rem 0.75rem",
+              borderTop: "1px solid rgba(255,255,255,0.07)",
+              background: "oklch(0.13 0.008 285)",
+              flexShrink: 0,
+            }}>
+              <div style={{
+                display: "flex", alignItems: "center", gap: "0.5rem",
+                padding: "0.5rem 0.75rem",
+                borderRadius: "0.875rem",
+                background: "rgba(255,255,255,0.06)",
+                border: "1px solid rgba(255,255,255,0.09)",
+              }}>
                 <input
                   ref={inputRef}
                   type="text"
@@ -204,22 +282,33 @@ export default function AIChatButton() {
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && sendMessage()}
                   placeholder="Pergunte algo..."
-                  className="flex-1 bg-transparent text-sm text-white placeholder-white/30 outline-none"
                   disabled={isLoading}
+                  style={{
+                    flex: 1, background: "transparent", border: "none", outline: "none",
+                    color: "white", fontSize: "0.8125rem",
+                  }}
                 />
                 <button
                   onClick={() => sendMessage()}
                   disabled={!input.trim() || isLoading}
-                  className="w-7 h-7 rounded-lg shimmer flex items-center justify-center text-black disabled:opacity-40 disabled:cursor-not-allowed transition-opacity flex-shrink-0"
+                  className="shimmer"
+                  style={{
+                    width: 28, height: 28, borderRadius: "0.5rem", border: "none",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    cursor: input.trim() && !isLoading ? "pointer" : "not-allowed",
+                    opacity: input.trim() && !isLoading ? 1 : 0.4,
+                    flexShrink: 0,
+                  }}
                 >
-                  {isLoading ? (
-                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                  ) : (
-                    <Send className="w-3.5 h-3.5" />
-                  )}
+                  {isLoading
+                    ? <Loader2 style={{ width: 13, height: 13, color: "black", animation: "spin 1s linear infinite" }} />
+                    : <Send style={{ width: 13, height: 13, color: "black" }} />
+                  }
                 </button>
               </div>
-              <p className="text-center text-xs text-white/20 mt-2">Powered by LLaMA 3 · DevHosting IA</p>
+              <p style={{ textAlign: "center", fontSize: "0.625rem", color: "rgba(255,255,255,0.18)", margin: "0.375rem 0 0" }}>
+                Powered by LLaMA 3 · DevHosting IA
+              </p>
             </div>
           </motion.div>
         )}
@@ -230,28 +319,29 @@ export default function AIChatButton() {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-4 z-50 w-14 h-14 rounded-full shimmer shadow-[0_0_30px_oklch(0.75_0.18_75/0.4)] flex items-center justify-center text-black font-bold"
+        className="shimmer"
+        style={{
+          position: "fixed", bottom: "1.5rem", right: "1rem",
+          width: 52, height: 52, borderRadius: "50%", border: "none",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          cursor: "pointer", zIndex: 9999,
+          boxShadow: "0 0 30px rgba(245,158,11,0.35)",
+        }}
       >
         <AnimatePresence mode="wait">
           {isOpen ? (
-            <motion.div
-              key="close"
-              initial={{ rotate: -90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: 90, opacity: 0 }}
-              transition={{ duration: 0.2 }}
+            <motion.div key="close"
+              initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }}
+              exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.18 }}
             >
-              <X className="w-6 h-6" />
+              <X style={{ width: 22, height: 22, color: "black" }} />
             </motion.div>
           ) : (
-            <motion.div
-              key="chat"
-              initial={{ rotate: -90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: 90, opacity: 0 }}
-              transition={{ duration: 0.2 }}
+            <motion.div key="chat"
+              initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }}
+              exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.18 }}
             >
-              <MessageSquare className="w-6 h-6" />
+              <MessageSquare style={{ width: 22, height: 22, color: "black" }} />
             </motion.div>
           )}
         </AnimatePresence>
