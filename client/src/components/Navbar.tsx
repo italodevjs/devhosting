@@ -51,10 +51,12 @@ export default function Navbar() {
               className="flex items-center gap-2.5 group"
               whileHover={{ scale: 1.02 }}
             >
-              <div className="relative w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center shadow-[0_0_20px_oklch(0.75_0.18_75/0.4)] group-hover:shadow-[0_0_30px_oklch(0.75_0.18_75/0.6)] transition-shadow">
-                <Server className="w-5 h-5 text-black" strokeWidth={2.5} />
-              </div>
-              <div className="flex flex-col leading-none">
+              <img
+                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663504481998/2EqK77EzANN3ZXvZMJ4rig/IMG_9021_9d52b903.jpeg"
+                alt="DevHosting Logo"
+                className="w-10 h-10 rounded-xl shadow-[0_0_20px_oklch(0.75_0.18_75/0.4)] group-hover:shadow-[0_0_30px_oklch(0.75_0.18_75/0.6)] transition-shadow"
+              />
+              <div className="hidden sm:flex flex-col leading-none">
                 <span className="font-display text-lg font-800 text-white tracking-tight" style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800 }}>
                   Dev<span className="text-amber-400">Hosting</span>
                 </span>

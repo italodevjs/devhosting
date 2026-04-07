@@ -23,9 +23,11 @@ export default function Footer() {
           {/* Brand */}
           <div className="col-span-2 lg:col-span-1">
             <div className="flex items-center gap-2.5 mb-4">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center shadow-[0_0_20px_oklch(0.75_0.18_75/0.3)]">
-                <Server className="w-5 h-5 text-black" strokeWidth={2.5} />
-              </div>
+              <img
+                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663504481998/2EqK77EzANN3ZXvZMJ4rig/IMG_9021_9d52b903.jpeg"
+                alt="DevHosting Logo"
+                className="w-10 h-10 rounded-xl shadow-[0_0_20px_oklch(0.75_0.18_75/0.3)]"
+              />
               <span className="text-lg font-black text-white" style={{ fontFamily: 'Syne, sans-serif' }}>
                 Dev<span className="text-amber-400">Hosting</span>
               </span>
