@@ -17,7 +17,7 @@ export default function Navbar() {
   const navLinks = [
     { label: t.nav.hosting, href: "#planos" },
     { label: t.nav.vps, href: "#vps" },
-    { label: t.nav.domains, href: "#dominios" },
+    { label: t.nav.domains, href: "/dominios", isPage: true },
     { label: t.nav.security, href: "#seguranca" },
     { label: t.nav.payments, href: "#pagamentos" },
   ];
@@ -38,8 +38,12 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleNav = (href: string) => {
+  const handleNav = (href: string, isPage?: boolean) => {
     setMobileOpen(false);
+    if (isPage || !href.startsWith("#")) {
+      window.location.href = href;
+      return;
+    }
     const el = document.querySelector(href);
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
@@ -83,7 +87,7 @@ export default function Navbar() {
               {navLinks.map((link) => (
                 <button
                   key={link.href}
-                  onClick={() => handleNav(link.href)}
+                  onClick={() => handleNav(link.href, link.isPage)}
                   className="px-4 py-2 text-sm font-medium text-white/60 hover:text-white transition-colors rounded-lg hover:bg-white/5 relative group"
                   style={{ fontFamily: 'DM Sans, sans-serif' }}
                 >
@@ -217,7 +221,7 @@ export default function Navbar() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.06 }}
-                  onClick={() => handleNav(link.href)}
+                  onClick={() => handleNav(link.href, link.isPage)}
                   className="text-left px-4 py-3 text-base font-medium text-white/70 hover:text-white hover:bg-white/5 rounded-xl transition-all"
                   style={{ fontFamily: 'DM Sans, sans-serif' }}
                 >

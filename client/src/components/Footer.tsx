@@ -19,6 +19,13 @@ export default function Footer() {
       { label: "WordPress", href: "/#plans" },
       { label: "E-commerce", href: "/#plans" },
     ],
+    "Domínios": [
+      { label: "Buscar Domínio", href: "/dominios" },
+      { label: ".com.br", href: "/dominios" },
+      { label: ".com", href: "/dominios" },
+      { label: ".io / .dev", href: "/dominios" },
+      { label: "Transferir", href: "/dominios" },
+    ],
     "VPS": [
       { label: "VPS Nano", href: "/#plans" },
       { label: "VPS Power", href: "/#plans" },

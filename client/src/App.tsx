@@ -13,6 +13,7 @@ import Docs from "./pages/Docs";
 import Status from "./pages/Status";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import DomainSearch from "./pages/DomainSearch";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -30,6 +31,8 @@ function Router() {
       <Route path={"/about"} component={About} />
       <Route path={"/contato"} component={Contact} />
       <Route path={"/contact"} component={Contact} />
+      <Route path={"/dominios"} component={DomainSearch} />
+      <Route path={"/domains"} component={DomainSearch} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
