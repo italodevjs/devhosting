@@ -56,7 +56,8 @@ export default function Navbar() {
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        style={{ top: "var(--promo-banner-h, 0px)" }}
+        className={`fixed left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
             ? "bg-[oklch(0.09_0.005_285/0.92)] backdrop-blur-xl border-b border-white/5 shadow-[0_8px_32px_oklch(0_0_0/0.4)]"
             : "bg-transparent"
@@ -212,7 +213,8 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.25 }}
-            className="fixed top-16 left-0 right-0 z-40 bg-[oklch(0.09_0.005_285/0.97)] backdrop-blur-xl border-b border-white/5 lg:hidden"
+            style={{ top: "calc(var(--promo-banner-h, 0px) + 4rem)" }}
+            className="fixed left-0 right-0 z-40 bg-[oklch(0.09_0.005_285/0.97)] backdrop-blur-xl border-b border-white/5 lg:hidden"
           >
             <div className="container py-6 flex flex-col gap-2">
               {navLinks.map((link, i) => (

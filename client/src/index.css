@@ -50,6 +50,7 @@
 }
 
 :root {
+  --promo-banner-h: 0px;
   --radius: 0.75rem;
   --background: oklch(0.09 0.005 285);
   --foreground: oklch(0.96 0.005 65);
