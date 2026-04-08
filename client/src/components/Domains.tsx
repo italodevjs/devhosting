@@ -40,7 +40,7 @@ export default function Domains() {
   };
 
   return (
-    <section id="dominios" className="py-24 lg:py-32 relative overflow-hidden">
+    <section id="dominios" className="py-16 lg:py-32 relative overflow-hidden">
       {/* Background */}
       <div className="absolute top-1/2 right-0 w-96 h-96 rounded-full bg-indigo-500/5 blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-1/4 w-64 h-64 rounded-full bg-amber-400/4 blur-3xl pointer-events-none" />
@@ -56,7 +56,7 @@ export default function Domains() {
           <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold text-amber-400 border border-amber-400/20 bg-amber-400/5 uppercase tracking-widest mb-4">
             {t.domains.badge}
           </span>
-          <h2 className="text-4xl lg:text-6xl font-black text-white mb-4" style={{ fontFamily: 'Syne, sans-serif' }}>
+          <h2 className="text-3xl sm:text-4xl lg:text-6xl font-black text-white mb-4" style={{ fontFamily: 'Syne, sans-serif' }}>
             {t.domains.title1} <span className="gradient-text">{t.domains.title2}</span>
           </h2>
           <p className="text-lg text-white/50 max-w-xl mx-auto">

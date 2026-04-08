@@ -55,7 +55,7 @@ const FAQ_ITEMS = [
 
 export default function FAQ() {
   return (
-    <section id="faq" className="py-24 lg:py-32 relative overflow-hidden">
+    <section id="faq" className="py-16 lg:py-32 relative overflow-hidden">
       <div className="absolute top-1/2 left-0 w-80 h-80 rounded-full bg-indigo-500/5 blur-3xl pointer-events-none" />
 
       <div className="container relative">
@@ -69,11 +69,11 @@ export default function FAQ() {
           <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold text-amber-400 border border-amber-400/20 bg-amber-400/5 uppercase tracking-widest mb-4">
             Dúvidas Frequentes
           </span>
-          <h2 className="text-4xl lg:text-6xl font-black text-white mb-4" style={{ fontFamily: "Syne, sans-serif" }}>
+          <h2 className="text-3xl sm:text-4xl lg:text-6xl font-black text-white mb-4" style={{ fontFamily: "Syne, sans-serif" }}>
             Perguntas{" "}
             <span className="gradient-text">frequentes</span>
           </h2>
-          <p className="text-lg text-white/50 max-w-xl mx-auto">
+          <p className="text-base sm:text-lg text-white/50 max-w-xl mx-auto">
             Tudo que você precisa saber antes de contratar. Não encontrou sua dúvida?{" "}
             <a href="/contato" className="text-amber-400 hover:underline">
               Fale conosco

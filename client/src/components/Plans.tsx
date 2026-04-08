@@ -90,7 +90,7 @@ export default function Plans() {
                   <div>
                     <div className="flex items-end gap-1">
                       <span className="text-xs text-white/40 font-mono-data">R$</span>
-                      <span className="text-4xl font-black text-white font-mono-data">{price.toFixed(2).replace(".", ",")}</span>
+                      <span className="text-3xl sm:text-4xl font-black text-white font-mono-data">{price.toFixed(2).replace(".", ",")}</span>
                       <span className="text-sm text-white/40 mb-1">{t.plans.perMonth}</span>
                     </div>
                     {isAnnual && <p className="text-xs text-emerald-400 mt-1">{t.plans.annualNote}</p>}
@@ -135,7 +135,7 @@ export default function Plans() {
                   </div>
                   <div className="flex items-end gap-1">
                     <span className="text-xs text-white/40 font-mono-data">R$</span>
-                    <span className="text-4xl font-black text-white font-mono-data">{price.toFixed(2).replace(".", ",")}</span>
+                    <span className="text-3xl sm:text-4xl font-black text-white font-mono-data">{price.toFixed(2).replace(".", ",")}</span>
                     <span className="text-sm text-white/40 mb-1">{t.plans.perMonth}</span>
                   </div>
                   <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} disabled

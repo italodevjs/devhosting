@@ -38,7 +38,7 @@ const INCLUDED = [
 
 export default function Migration() {
   return (
-    <section id="migracao" className="py-24 lg:py-32 relative overflow-hidden">
+    <section id="migracao" className="py-16 lg:py-32 relative overflow-hidden">
       <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-emerald-500/4 blur-3xl pointer-events-none" />
 
       <div className="container relative">
@@ -52,7 +52,7 @@ export default function Migration() {
             <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold text-emerald-400 border border-emerald-400/20 bg-emerald-400/5 uppercase tracking-widest mb-4">
               Migração Gratuita
             </span>
-            <h2 className="text-4xl lg:text-5xl font-black text-white mb-4" style={{ fontFamily: "Syne, sans-serif" }}>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-4" style={{ fontFamily: "Syne, sans-serif" }}>
               Traga seu site{" "}
               <span className="text-emerald-400">sem pagar nada</span>
             </h2>

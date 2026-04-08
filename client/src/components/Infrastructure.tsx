@@ -38,10 +38,10 @@ export default function Infrastructure() {
           <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold text-cyan-400 border border-cyan-400/20 bg-cyan-400/5 uppercase tracking-widest mb-4">
             {t.infra.badge}
           </span>
-          <h2 className="text-4xl lg:text-6xl font-black text-white mb-4" style={{ fontFamily: 'Syne, sans-serif' }}>
+          <h2 className="text-3xl sm:text-4xl lg:text-6xl font-black text-white mb-4" style={{ fontFamily: 'Syne, sans-serif' }}>
             {t.infra.title1} <span className="gradient-text">{t.infra.title2}</span>
           </h2>
-          <p className="text-lg text-white/50 max-w-xl mx-auto">
+          <p className="text-base sm:text-lg text-white/50 max-w-xl mx-auto">
             {t.infra.subtitle}
           </p>
         </motion.div>

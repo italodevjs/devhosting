@@ -531,12 +531,12 @@ export default function DomainSearch() {
                 <Globe className="w-4 h-4" />
                 <span>Registro de Domínios</span>
               </div>
-              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-white leading-tight mb-4"
+              <h1 className="text-3xl sm:text-4xl lg:text-7xl font-black text-white leading-tight mb-4"
                 style={{ fontFamily: 'Syne, sans-serif' }}>
                 Encontre seu<br />
                 <span className="gradient-text">domínio perfeito</span>
               </h1>
-              <p className="text-lg text-white/50 max-w-lg mx-auto">
+              <p className="text-base sm:text-lg text-white/50 max-w-lg mx-auto">
                 Mais de 27 extensões disponíveis. WHOIS Privacy grátis em todos os planos.
                 Aceite pagamentos em <span className="text-amber-400">Pix, Cripto e Cartão</span>.
               </p>

@@ -13,7 +13,6 @@ function useCounter(target: number, duration = 1800, start = false) {
     const step = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
       const progress = Math.min((timestamp - startTime) / duration, 1);
-      // ease out
       const eased = 1 - Math.pow(1 - progress, 3);
       setCount(Math.floor(eased * target));
       if (progress < 1) requestAnimationFrame(step);
@@ -87,13 +86,16 @@ function StatCard({ value, suffix, label, icon: Icon, color, started }: any) {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="glass-card rounded-2xl border border-white/8 p-6 text-center"
+      className="glass-card rounded-2xl border border-white/8 p-4 sm:p-6 text-center"
     >
-      <Icon className={`w-6 h-6 ${color} mx-auto mb-3`} />
-      <div className={`text-4xl font-black ${color} mb-1`} style={{ fontFamily: "Syne, sans-serif" }}>
+      <Icon className={`w-5 h-5 sm:w-6 sm:h-6 ${color} mx-auto mb-2 sm:mb-3`} />
+      <div
+        className={`text-2xl sm:text-3xl lg:text-4xl font-black ${color} mb-1 leading-tight`}
+        style={{ fontFamily: "Syne, sans-serif" }}
+      >
         {count}{decPart}{suffix}
       </div>
-      <p className="text-white/50 text-sm">{label}</p>
+      <p className="text-white/50 text-xs sm:text-sm leading-snug">{label}</p>
     </motion.div>
   );
 }
@@ -103,7 +105,7 @@ export default function WhyUs() {
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="por-que-nos" className="py-24 lg:py-32 relative overflow-hidden">
+    <section id="por-que-nos" className="py-16 lg:py-32 relative overflow-hidden">
       <div className="absolute top-0 left-1/3 w-96 h-96 rounded-full bg-amber-400/4 blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-64 h-64 rounded-full bg-indigo-500/5 blur-3xl pointer-events-none" />
 
@@ -113,29 +115,32 @@ export default function WhyUs() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-10 sm:mb-16"
         >
           <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold text-amber-400 border border-amber-400/20 bg-amber-400/5 uppercase tracking-widest mb-4">
             Por que nos escolher
           </span>
-          <h2 className="text-4xl lg:text-6xl font-black text-white mb-4" style={{ fontFamily: "Syne, sans-serif" }}>
+          <h2
+            className="text-3xl sm:text-4xl lg:text-6xl font-black text-white mb-4"
+            style={{ fontFamily: "Syne, sans-serif" }}
+          >
             Infraestrutura real,{" "}
             <span className="gradient-text">sem atalhos</span>
           </h2>
-          <p className="text-lg text-white/50 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-white/50 max-w-2xl mx-auto">
             Cada detalhe foi pensado para desenvolvedores e empresas que precisam de performance e confiabilidade de verdade.
           </p>
         </motion.div>
 
         {/* Animated stats */}
-        <div ref={ref} className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
+        <div ref={ref} className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-10 sm:mb-16">
           {STATS.map((s) => (
             <StatCard key={s.label} {...s} started={inView} />
           ))}
         </div>
 
         {/* Feature grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           {FEATURES.map((f, i) => (
             <motion.div
               key={f.title}
@@ -143,16 +148,16 @@ export default function WhyUs() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08 }}
-              className="glass-card rounded-2xl border border-white/8 p-6 flex gap-4 hover:border-white/15 transition-colors"
+              className="glass-card rounded-2xl border border-white/8 p-4 sm:p-6 flex gap-3 sm:gap-4 hover:border-white/15 transition-colors"
             >
-              <div className={`w-10 h-10 rounded-xl ${f.bg} flex items-center justify-center flex-shrink-0 mt-0.5`}>
-                <f.icon className={`w-5 h-5 ${f.color}`} />
+              <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl ${f.bg} flex items-center justify-center flex-shrink-0 mt-0.5`}>
+                <f.icon className={`w-4 h-4 sm:w-5 sm:h-5 ${f.color}`} />
               </div>
               <div>
-                <h3 className="text-white font-bold mb-1.5" style={{ fontFamily: "Syne, sans-serif" }}>
+                <h3 className="text-white font-bold mb-1 text-sm sm:text-base" style={{ fontFamily: "Syne, sans-serif" }}>
                   {f.title}
                 </h3>
-                <p className="text-white/50 text-sm leading-relaxed">{f.desc}</p>
+                <p className="text-white/50 text-xs sm:text-sm leading-relaxed">{f.desc}</p>
               </div>
             </motion.div>
           ))}
