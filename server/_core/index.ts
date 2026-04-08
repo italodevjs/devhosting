@@ -8,6 +8,7 @@ import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 import chatRouter from "../routes/chat";
+import domainRouter from "../routes/domain";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -38,6 +39,8 @@ async function startServer() {
   registerOAuthRoutes(app);
   // Chat IA route
   app.use("/api/chat", chatRouter);
+  // Domain availability check route (RDAP)
+  app.use("/api/domain", domainRouter);
   // tRPC API
   app.use(
     "/api/trpc",

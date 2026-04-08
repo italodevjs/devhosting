@@ -138,6 +138,8 @@ export default function Domains() {
                         <Check className="w-4 h-4 text-emerald-400 flex-shrink-0" />
                       ) : r.status === "taken" ? (
                         <X className="w-4 h-4 text-red-400/70 flex-shrink-0" />
+                      ) : r.status === "error" || r.status === "unknown" ? (
+                        <RefreshCw className="w-4 h-4 text-white/30 flex-shrink-0" />
                       ) : (
                         <Zap className="w-4 h-4 text-amber-400 flex-shrink-0" />
                       )}
@@ -152,10 +154,20 @@ export default function Domains() {
                           Premium
                         </span>
                       )}
+                      {(r.status === "error" || r.status === "unknown") && (
+                        <span className="text-[10px] text-white/30 bg-white/5 px-2 py-0.5 rounded-full">
+                          Verificando...
+                        </span>
+                      )}
                     </div>
                     {(r.status === "available" || r.status === "premium") && (
                       <span className="font-mono-data text-sm font-semibold text-amber-400">
                         R$ {r.price.toFixed(2).replace(".", ",")}/ano
+                      </span>
+                    )}
+                    {r.status === "taken" && r.expiresAt && (
+                      <span className="text-[10px] text-white/30">
+                        Expira: {new Date(r.expiresAt).getFullYear()}
                       </span>
                     )}
                   </motion.div>

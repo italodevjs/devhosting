@@ -47,6 +47,11 @@ function StatusBadge({ status }: { status: DomainResult["status"] }) {
       <Star className="w-3 h-3" /> Premium
     </span>
   );
+  if (status === "error" || status === "unknown") return (
+    <span className="flex items-center gap-1.5 text-xs text-white/30 bg-white/5 px-2.5 py-1 rounded-full">
+      <AlertCircle className="w-3 h-3" /> Indisponível
+    </span>
+  );
   return (
     <span className="flex items-center gap-1.5 text-xs font-semibold text-red-400/80 bg-red-400/10 px-2.5 py-1 rounded-full">
       <X className="w-3 h-3" /> Indisponível
@@ -103,6 +108,16 @@ function DomainRow({
           {canAdd && (
             <p className="text-xs text-white/30 mt-0.5">
               Renovação: R$ {result.renewPrice.toFixed(2).replace(".", ",")}/ano
+            </p>
+          )}
+          {result.status === "taken" && result.registrar && (
+            <p className="text-xs text-white/20 mt-0.5">
+              Registrador: {result.registrar.length > 30 ? result.registrar.slice(0, 30) + "..." : result.registrar}
+            </p>
+          )}
+          {result.status === "taken" && result.expiresAt && (
+            <p className="text-xs text-white/20 mt-0.5">
+              Expira em: {new Date(result.expiresAt).toLocaleDateString("pt-BR")}
             </p>
           )}
         </div>

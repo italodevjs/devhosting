@@ -1,8 +1,13 @@
-// Simulated domain availability engine
-// In production, this would call a WHOIS/RDAP API
+// =============================================================================
+// domainUtils.ts — Verificação REAL de domínios via RDAP (ICANN)
+// Chama /api/domain que consulta os servidores RDAP oficiais:
+//   HTTP 200 = domínio registrado (indisponível)
+//   HTTP 404 = domínio livre (disponível)
+// =============================================================================
 
 export interface TLDInfo {
   ext: string;
+  tld: string;          // sem ponto
   price: number;
   renewPrice: number;
   category: "popular" | "business" | "tech" | "br" | "generic";
@@ -11,57 +16,60 @@ export interface TLDInfo {
 }
 
 export const ALL_TLDS: TLDInfo[] = [
-  // BR
-  { ext: ".com.br", price: 39.90, renewPrice: 39.90, category: "br", badge: "BR Popular" },
-  { ext: ".net.br", price: 39.90, renewPrice: 39.90, category: "br" },
-  { ext: ".org.br", price: 39.90, renewPrice: 39.90, category: "br" },
-  { ext: ".edu.br", price: 29.90, renewPrice: 29.90, category: "br" },
-  // Global popular
-  { ext: ".com", price: 59.90, renewPrice: 69.90, category: "popular", badge: "Mais Popular" },
-  { ext: ".net", price: 54.90, renewPrice: 59.90, category: "popular" },
-  { ext: ".org", price: 54.90, renewPrice: 59.90, category: "popular" },
-  { ext: ".info", price: 49.90, renewPrice: 54.90, category: "popular" },
-  // Tech
-  { ext: ".io", price: 129.90, renewPrice: 139.90, category: "tech", badge: "Startups" },
-  { ext: ".dev", price: 89.90, renewPrice: 99.90, category: "tech", badge: "Devs" },
-  { ext: ".app", price: 89.90, renewPrice: 99.90, category: "tech" },
-  { ext: ".tech", price: 99.90, renewPrice: 109.90, category: "tech" },
-  { ext: ".cloud", price: 79.90, renewPrice: 89.90, category: "tech" },
-  { ext: ".digital", price: 89.90, renewPrice: 99.90, category: "tech" },
-  { ext: ".software", price: 99.90, renewPrice: 109.90, category: "tech" },
-  { ext: ".codes", price: 109.90, renewPrice: 119.90, category: "tech" },
-  // Business
-  { ext: ".store", price: 79.90, renewPrice: 89.90, category: "business", badge: "E-commerce" },
-  { ext: ".shop", price: 79.90, renewPrice: 89.90, category: "business" },
-  { ext: ".business", price: 69.90, renewPrice: 79.90, category: "business" },
-  { ext: ".company", price: 69.90, renewPrice: 79.90, category: "business" },
-  { ext: ".agency", price: 89.90, renewPrice: 99.90, category: "business" },
-  { ext: ".solutions", price: 89.90, renewPrice: 99.90, category: "business" },
-  // Generic
-  { ext: ".online", price: 59.90, renewPrice: 69.90, category: "generic" },
-  { ext: ".site", price: 59.90, renewPrice: 69.90, category: "generic" },
-  { ext: ".website", price: 49.90, renewPrice: 59.90, category: "generic" },
-  { ext: ".blog", price: 69.90, renewPrice: 79.90, category: "generic" },
-  { ext: ".media", price: 89.90, renewPrice: 99.90, category: "generic" },
-  { ext: ".studio", price: 89.90, renewPrice: 99.90, category: "generic" },
+  // === BRASIL ===
+  { ext: ".com.br",  tld: "com.br",  price: 39.90,  renewPrice: 39.90,  category: "br",       badge: "BR Popular" },
+  { ext: ".net.br",  tld: "net.br",  price: 39.90,  renewPrice: 39.90,  category: "br" },
+  { ext: ".org.br",  tld: "org.br",  price: 39.90,  renewPrice: 39.90,  category: "br" },
+  { ext: ".ind.br",  tld: "ind.br",  price: 39.90,  renewPrice: 39.90,  category: "br" },
+  { ext: ".nom.br",  tld: "nom.br",  price: 39.90,  renewPrice: 39.90,  category: "br" },
+  { ext: ".art.br",  tld: "art.br",  price: 39.90,  renewPrice: 39.90,  category: "br" },
+  { ext: ".tur.br",  tld: "tur.br",  price: 39.90,  renewPrice: 39.90,  category: "br" },
+  { ext: ".inf.br",  tld: "inf.br",  price: 39.90,  renewPrice: 39.90,  category: "br" },
+  { ext: ".adv.br",  tld: "adv.br",  price: 39.90,  renewPrice: 39.90,  category: "br" },
+  { ext: ".eng.br",  tld: "eng.br",  price: 39.90,  renewPrice: 39.90,  category: "br" },
+  { ext: ".med.br",  tld: "med.br",  price: 39.90,  renewPrice: 39.90,  category: "br" },
+  { ext: ".vet.br",  tld: "vet.br",  price: 39.90,  renewPrice: 39.90,  category: "br" },
+  { ext: ".arq.br",  tld: "arq.br",  price: 39.90,  renewPrice: 39.90,  category: "br" },
+  // === POPULARES ===
+  { ext: ".com",     tld: "com",     price: 49.90,  renewPrice: 59.90,  category: "popular",  badge: "Mais Popular" },
+  { ext: ".net",     tld: "net",     price: 44.90,  renewPrice: 54.90,  category: "popular" },
+  { ext: ".org",     tld: "org",     price: 44.90,  renewPrice: 54.90,  category: "popular" },
+  { ext: ".info",    tld: "info",    price: 39.90,  renewPrice: 79.90,  category: "popular",  badge: "Oferta" },
+  { ext: ".biz",     tld: "biz",     price: 44.90,  renewPrice: 54.90,  category: "popular" },
+  { ext: ".co",      tld: "co",      price: 79.90,  renewPrice: 89.90,  category: "popular" },
+  // === TECH ===
+  { ext: ".io",      tld: "io",      price: 149.90, renewPrice: 159.90, category: "tech",     badge: "Startups" },
+  { ext: ".dev",     tld: "dev",     price: 69.90,  renewPrice: 79.90,  category: "tech",     badge: "Devs" },
+  { ext: ".app",     tld: "app",     price: 69.90,  renewPrice: 79.90,  category: "tech" },
+  { ext: ".tech",    tld: "tech",    price: 79.90,  renewPrice: 89.90,  category: "tech" },
+  { ext: ".cloud",   tld: "cloud",   price: 69.90,  renewPrice: 79.90,  category: "tech" },
+  { ext: ".digital", tld: "digital", price: 69.90,  renewPrice: 79.90,  category: "tech" },
+  { ext: ".host",    tld: "host",    price: 99.90,  renewPrice: 109.90, category: "tech" },
+  { ext: ".page",    tld: "page",    price: 49.90,  renewPrice: 59.90,  category: "tech" },
+  // === NEGÓCIOS ===
+  { ext: ".store",   tld: "store",   price: 59.90,  renewPrice: 99.90,  category: "business", badge: "E-commerce" },
+  { ext: ".shop",    tld: "shop",    price: 69.90,  renewPrice: 89.90,  category: "business" },
+  { ext: ".online",  tld: "online",  price: 39.90,  renewPrice: 89.90,  category: "business", badge: "Oferta" },
+  { ext: ".site",    tld: "site",    price: 39.90,  renewPrice: 89.90,  category: "business", badge: "Oferta" },
+  { ext: ".agency",  tld: "agency",  price: 79.90,  renewPrice: 89.90,  category: "business" },
+  { ext: ".media",   tld: "media",   price: 79.90,  renewPrice: 89.90,  category: "business" },
+  { ext: ".email",   tld: "email",   price: 49.90,  renewPrice: 59.90,  category: "business" },
+  { ext: ".website", tld: "website", price: 39.90,  renewPrice: 79.90,  category: "business" },
+  // === GENÉRICOS ===
+  { ext: ".studio",  tld: "studio",  price: 79.90,  renewPrice: 89.90,  category: "generic" },
+  { ext: ".design",  tld: "design",  price: 79.90,  renewPrice: 89.90,  category: "generic" },
+  { ext: ".blog",    tld: "blog",    price: 49.90,  renewPrice: 59.90,  category: "generic" },
+  { ext: ".us",      tld: "us",      price: 44.90,  renewPrice: 54.90,  category: "generic" },
+  { ext: ".ca",      tld: "ca",      price: 44.90,  renewPrice: 54.90,  category: "generic" },
+  { ext: ".de",      tld: "de",      price: 29.90,  renewPrice: 39.90,  category: "generic" },
 ];
 
-// Deterministic "availability" based on domain name hash
-// Makes results consistent for the same domain
-function hashString(str: string): number {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    const char = str.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
-    hash = hash & hash;
-  }
-  return Math.abs(hash);
-}
+// Mapa rápido TLD (sem ponto) -> info
+export const TLD_MAP: Record<string, TLDInfo> = Object.fromEntries(
+  ALL_TLDS.map(t => [t.tld, t])
+);
 
-// Always-unavailable domains (common ones)
-const ALWAYS_TAKEN = ["google", "facebook", "amazon", "microsoft", "apple", "netflix", "youtube", "twitter", "instagram", "whatsapp", "github", "gitlab", "vercel", "cloudflare"];
-
-export type AvailabilityStatus = "available" | "taken" | "premium" | "loading";
+export type AvailabilityStatus = "available" | "taken" | "premium" | "loading" | "error" | "unknown";
 
 export interface DomainResult {
   domain: string;
@@ -73,73 +81,118 @@ export interface DomainResult {
   badge?: string;
   isPremium?: boolean;
   premiumPrice?: number;
+  registrar?: string;
+  expiresAt?: string;
+  createdAt?: string;
 }
 
+// Sanitizar nome: remover acentos, manter apenas a-z0-9-
+function sanitizeName(name: string): string {
+  return name
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9-]/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .replace(/-{2,}/g, "-");
+}
+
+// Verificação REAL de disponibilidade via API /api/domain (RDAP)
 export async function checkDomainAvailability(
   name: string,
   tlds: TLDInfo[]
 ): Promise<DomainResult[]> {
-  // Simulate network delay
-  await new Promise((r) => setTimeout(r, 800 + Math.random() * 600));
+  const cleanName = sanitizeName(name);
+  if (!cleanName || cleanName.length < 2) return [];
 
-  const cleanName = name.toLowerCase().replace(/[^a-z0-9-]/g, "").replace(/^-+|-+$/g, "");
+  const domains = tlds.map(t => ({ name: cleanName, tld: t.tld }));
 
-  return tlds.map((tld) => {
-    const fullDomain = `${cleanName}${tld.ext}`;
-    const hash = hashString(fullDomain);
+  try {
+    const response = await fetch("/api/domain", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ domains }),
+    });
 
-    let status: AvailabilityStatus;
-
-    if (ALWAYS_TAKEN.includes(cleanName)) {
-      status = "taken";
-    } else if (cleanName.length <= 3 && hash % 3 === 0) {
-      // Short domains are often premium
-      status = "premium";
-    } else {
-      // ~65% available, ~35% taken
-      status = hash % 10 < 7 ? "available" : "taken";
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`);
     }
 
-    const isPremium = status === "premium";
+    const data = await response.json();
 
-    return {
+    return data.results.map((r: any) => {
+      const tldInfo = TLD_MAP[r.tld] || tlds.find(t => t.tld === r.tld);
+      const price = tldInfo?.price ?? 49.90;
+      const renewPrice = tldInfo?.renewPrice ?? 59.90;
+      const badge = tldInfo?.badge;
+
+      return {
+        domain: cleanName,
+        tld: `.${r.tld}`,
+        fullDomain: r.domain,
+        status: r.status as AvailabilityStatus,
+        price,
+        renewPrice,
+        badge,
+        isPremium: false,
+        registrar: r.registrar,
+        expiresAt: r.expiresAt,
+        createdAt: r.createdAt,
+      } as DomainResult;
+    });
+  } catch (err) {
+    console.error("Erro ao verificar domínios:", err);
+    // Fallback: retornar erro para todos
+    return tlds.map(tldInfo => ({
       domain: cleanName,
-      tld: tld.ext,
-      fullDomain,
-      status,
-      price: tld.price,
-      renewPrice: tld.renewPrice,
-      badge: tld.badge,
-      isPremium,
-      premiumPrice: isPremium ? tld.price * 5 : undefined,
-    };
-  });
+      tld: tldInfo.ext,
+      fullDomain: `${cleanName}${tldInfo.ext}`,
+      status: "error" as AvailabilityStatus,
+      price: tldInfo.price,
+      renewPrice: tldInfo.renewPrice,
+      badge: tldInfo.badge,
+      isPremium: false,
+    }));
+  }
 }
 
-// Generate smart suggestions based on the searched name
+// Gerar sugestões inteligentes de nomes alternativos
 export function generateSuggestions(name: string): string[] {
-  const clean = name.toLowerCase().replace(/[^a-z0-9]/g, "");
+  const clean = sanitizeName(name);
+  if (!clean) return [];
+
+  const prefixes = ["get", "try", "use", "my", "the", "go", "pro", "top", "fast", "best"];
+  const suffixes = ["app", "hq", "hub", "io", "lab", "tech", "dev", "br", "online", "digital"];
+
   const suggestions: string[] = [];
+  prefixes.slice(0, 5).forEach(p => {
+    const s = `${p}${clean}`;
+    if (s.length <= 30) suggestions.push(s);
+  });
+  suffixes.slice(0, 5).forEach(s => {
+    const sug = `${clean}${s}`;
+    if (sug.length <= 30) suggestions.push(sug);
+  });
 
-  // Prefixes/suffixes
-  const prefixes = ["get", "try", "use", "my", "the", "go", "pro"];
-  const suffixes = ["app", "hq", "hub", "io", "lab", "tech", "dev", "br"];
-
-  prefixes.forEach((p) => suggestions.push(`${p}${clean}`));
-  suffixes.forEach((s) => suggestions.push(`${clean}${s}`));
-
-  // Shuffle and take top 6
   return suggestions.sort(() => Math.random() - 0.5).slice(0, 6);
 }
 
+// Parse da entrada do usuário
 export function parseDomainInput(input: string): { name: string; tld: string | null } {
-  const trimmed = input.trim().toLowerCase();
-  const dotIndex = trimmed.indexOf(".");
-  if (dotIndex === -1) {
-    return { name: trimmed, tld: null };
+  const trimmed = input.trim().toLowerCase().replace(/^https?:\/\//, "").replace(/\/$/, "");
+
+  if (trimmed.includes(".")) {
+    // Tentar casar com TLDs conhecidos (do mais longo para o mais curto)
+    const sortedTlds = ALL_TLDS.map(t => t.tld).sort((a, b) => b.length - a.length);
+    for (const tld of sortedTlds) {
+      if (trimmed.endsWith(`.${tld}`)) {
+        const namePart = trimmed.slice(0, -(tld.length + 1));
+        if (namePart.length >= 1) return { name: namePart, tld };
+      }
+    }
+    const lastDot = trimmed.lastIndexOf(".");
+    return { name: trimmed.slice(0, lastDot), tld: trimmed.slice(lastDot + 1) };
   }
-  return {
-    name: trimmed.slice(0, dotIndex),
-    tld: trimmed.slice(dotIndex),
-  };
+
+  return { name: trimmed, tld: null };
 }

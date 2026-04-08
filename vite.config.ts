@@ -170,6 +170,17 @@ export default defineConfig({
   },
   server: {
     host: true,
+    proxy: {
+      "/api/domain": {
+        target: "http://localhost:3001",
+        changeOrigin: true,
+        rewrite: (path) => path,
+      },
+      "/api/chat": {
+        target: "http://localhost:3001",
+        changeOrigin: true,
+      },
+    },
     allowedHosts: [
       ".manuspre.computer",
       ".manus.computer",
