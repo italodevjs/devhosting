@@ -5,6 +5,9 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { LanguageProvider } from "./context/LanguageContext";
+import { CookieProvider } from "./context/CookieContext";
+import CookieBanner from "./components/CookieBanner";
+import CookieModal from "./components/CookieModal";
 import Home from "./pages/Home";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
@@ -14,9 +17,9 @@ import Status from "./pages/Status";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import DomainSearch from "./pages/DomainSearch";
+import CookiesPage from "./pages/Cookies";
 
 function Router() {
-  // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
       <Route path={"/"} component={Home} />
@@ -33,30 +36,27 @@ function Router() {
       <Route path={"/contact"} component={Contact} />
       <Route path={"/dominios"} component={DomainSearch} />
       <Route path={"/domains"} component={DomainSearch} />
+      <Route path={"/cookies"} component={CookiesPage} />
       <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
       <Route component={NotFound} />
     </Switch>
   );
 }
 
-// NOTE: About Theme
-// - First choose a default theme according to your design style (dark or light bg), than change color palette in index.css
-//   to keep consistent foreground/background color across components
-// - If you want to make theme switchable, pass `switchable` ThemeProvider and use `useTheme` hook
-
 function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider
-        defaultTheme="dark"
-        // switchable
-      >
+      <ThemeProvider defaultTheme="dark">
         <LanguageProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Router />
-          </TooltipProvider>
+          <CookieProvider>
+            <TooltipProvider>
+              <Toaster />
+              <Router />
+              {/* Sistema global de cookies — renderizado fora do Router para persistir entre rotas */}
+              <CookieBanner />
+              <CookieModal />
+            </TooltipProvider>
+          </CookieProvider>
         </LanguageProvider>
       </ThemeProvider>
     </ErrorBoundary>

@@ -3,12 +3,14 @@
    Links, contact info, and social media */
 
 import { motion } from "framer-motion";
-import { Server, Mail, Instagram, Github } from "lucide-react";
+import { Server, Mail, Instagram, Github, Cookie } from "lucide-react";
 import { Link } from "wouter";
 import { useLang } from "@/context/LanguageContext";
+import { useCookies } from "../context/CookieContext";
 
 export default function Footer() {
   const { t } = useLang();
+  const { openModal } = useCookies();
 
   // Links with routes — plans scroll to #plans section, pages navigate to routes
   const footerLinks: Record<string, { label: string; href: string; external?: boolean }[]> = {
@@ -44,6 +46,8 @@ export default function Footer() {
       { label: t.footer.status, href: "/status" },
       { label: t.footer.privacy, href: "/privacidade" },
       { label: t.footer.terms, href: "/termos" },
+      { label: "Política de Cookies", href: "/cookies" },
+      { label: "SLA", href: "/sla" },
     ],
   };
 
@@ -137,6 +141,10 @@ export default function Footer() {
             <Link href="/termos" className="text-xs text-white/30 hover:text-white/60 transition-colors">{t.footer.terms}</Link>
             <Link href="/privacidade" className="text-xs text-white/30 hover:text-white/60 transition-colors">{t.footer.privacy}</Link>
             <Link href="/sla" className="text-xs text-white/30 hover:text-white/60 transition-colors">SLA</Link>
+            <button onClick={openModal} className="text-xs text-white/30 hover:text-amber-400 transition-colors flex items-center gap-1">
+              <Cookie className="w-3 h-3" />
+              Cookies
+            </button>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-emerald-400 pulse-dot" />
