@@ -146,6 +146,15 @@ export default function Navbar() {
               <motion.button
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
+                onClick={() => window.location.href = "/painel"}
+                className="px-4 py-2 rounded-xl text-sm font-medium text-amber-400 border border-amber-500/30 hover:bg-amber-500/10 transition-all"
+                style={{ fontFamily: 'Syne, sans-serif' }}
+              >
+                Painel
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.97 }}
                 onClick={() => handleNav("#planos")}
                 className="px-5 py-2.5 rounded-xl text-sm font-semibold text-black shimmer shadow-[0_0_20px_oklch(0.75_0.18_75/0.3)] hover:shadow-[0_0_30px_oklch(0.75_0.18_75/0.5)] transition-shadow"
                 style={{ fontFamily: 'Syne, sans-serif' }}
@@ -234,6 +243,16 @@ export default function Navbar() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: navLinks.length * 0.06 }}
+                onClick={() => window.location.href = "/painel"}
+                className="text-left px-4 py-3 text-base font-medium text-amber-400 hover:bg-amber-500/10 rounded-xl transition-all border border-amber-500/20"
+                style={{ fontFamily: 'DM Sans, sans-serif' }}
+              >
+                Acessar Painel
+              </motion.button>
+              <motion.button
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: (navLinks.length + 1) * 0.06 }}
                 onClick={() => handleNav("#planos")}
                 className="mt-2 px-5 py-3 rounded-xl text-sm font-semibold text-black shimmer text-center"
                 style={{ fontFamily: 'Syne, sans-serif' }}
