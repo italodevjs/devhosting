@@ -19,7 +19,12 @@ export default function SupportPage() {
     onSuccess: () => { refetch(); setShowForm(false); setForm({ subject: "", message: "", priority: "medium", category: "technical" }); }
   });
   const [showForm, setShowForm] = useState(false);
-  const [form, setForm] = useState({ subject: "", message: "", priority: "medium", category: "technical" });
+  const [form, setForm] = useState<{
+    subject: string;
+    message: string;
+    priority: "low" | "medium" | "high" | "critical";
+    category: "billing" | "technical" | "domain" | "vps" | "hosting" | "other";
+  }>({ subject: "", message: "", priority: "medium", category: "technical" });
 
   if (isLoading) return <div className="flex items-center justify-center h-64"><div className="w-6 h-6 border-2 border-amber-500 border-t-transparent rounded-full animate-spin" /></div>;
 
@@ -44,16 +49,16 @@ export default function SupportPage() {
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs text-zinc-400 mb-1">Prioridade</label>
-                <select value={form.priority} onChange={e => setForm(f => ({...f, priority: e.target.value}))} className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-sm text-white focus:outline-none focus:border-amber-500/50">
+                <select value={form.priority} onChange={e => setForm(f => ({...f, priority: e.target.value as "low" | "medium" | "high" | "critical"}))} className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-sm text-white focus:outline-none focus:border-amber-500/50">
                   <option value="low">Baixa</option>
                   <option value="medium">Média</option>
                   <option value="high">Alta</option>
-                  <option value="urgent">Urgente</option>
+                  <option value="critical">Crítico</option>
                 </select>
               </div>
               <div>
                 <label className="block text-xs text-zinc-400 mb-1">Categoria</label>
-                <select value={form.category} onChange={e => setForm(f => ({...f, category: e.target.value}))} className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-sm text-white focus:outline-none focus:border-amber-500/50">
+                <select value={form.category} onChange={e => setForm(f => ({...f, category: e.target.value as "billing" | "technical" | "domain" | "vps" | "hosting" | "other"}))} className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-sm text-white focus:outline-none focus:border-amber-500/50">
                   <option value="technical">Técnico</option>
                   <option value="billing">Financeiro</option>
                   <option value="domain">Domínio</option>

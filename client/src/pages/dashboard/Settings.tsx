@@ -58,7 +58,7 @@ export default function SettingsPage() {
             <Key className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
             <div>
               <p className="text-sm font-medium text-white">Autenticação via OAuth</p>
-              <p className="text-xs text-zinc-400 mt-1">Sua conta está protegida via {user?.provider === "github" ? "GitHub" : "Google"}. Não é necessário definir uma senha.</p>
+              <p className="text-xs text-zinc-400 mt-1">Sua conta está protegida via OAuth ({user?.loginMethod ?? "OAuth"}). Não é necessário definir uma senha.</p>
             </div>
           </div>
           <div className="space-y-3">

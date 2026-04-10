@@ -13,13 +13,13 @@ function StatusBadge({ status }: { status: string }) {
   return <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium border ${s.className}`}>{s.label}</span>;
 }
 
-function daysUntil(dateStr: string) {
-  return Math.ceil((new Date(dateStr).getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+function daysUntil(date: Date | string) {
+  return Math.ceil((new Date(date).getTime() - Date.now()) / (1000 * 60 * 60 * 24));
 }
 
 export default function DomainsPage() {
   const { data: domainsList = [], isLoading } = trpc.domains.list.useQuery();
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selected, setSelected] = useState<number | null>(null);
 
   if (isLoading) return <div className="flex items-center justify-center h-64"><div className="w-6 h-6 border-2 border-amber-500 border-t-transparent rounded-full animate-spin" /></div>;
 
@@ -85,11 +85,11 @@ export default function DomainsPage() {
                       </div>
                       <div className="p-3 bg-zinc-800/50 rounded-lg">
                         <p className="text-[10px] text-zinc-500 mb-1">Registrar</p>
-                        <p className="text-xs text-white">{d.registrar ?? "DevHosting"}</p>
+                        <p className="text-xs text-white">DevHosting</p>
                       </div>
                       <div className="p-3 bg-zinc-800/50 rounded-lg">
                         <p className="text-[10px] text-zinc-500 mb-1">Nameserver</p>
-                        <p className="text-xs text-white truncate">{d.nameservers?.[0] ?? "ns1.devhosting.com"}</p>
+                        <p className="text-xs text-white truncate">{Array.isArray(d.nameservers) && d.nameservers.length > 0 ? d.nameservers[0] : "ns1.devhosting.com.br"}</p>
                       </div>
                     </div>
                     <div className="flex flex-wrap gap-2">
