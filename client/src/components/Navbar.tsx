@@ -6,6 +6,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Server, ChevronDown } from "lucide-react";
 import { useLang, LANGUAGES } from "@/context/LanguageContext";
+import { useLocation } from "wouter";
 
 export default function Navbar() {
   const { lang, setLang, t } = useLang();
@@ -38,10 +39,12 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const [, setLocation] = useLocation();
+
   const handleNav = (href: string, isPage?: boolean) => {
     setMobileOpen(false);
     if (isPage || !href.startsWith("#")) {
-      window.location.href = href;
+      setLocation(href);
       return;
     }
     const el = document.querySelector(href);
@@ -146,7 +149,7 @@ export default function Navbar() {
               <motion.button
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
-                onClick={() => window.location.href = "/painel"}
+                onClick={() => handleNav("/painel", true)}
                 className="px-4 py-2 rounded-xl text-sm font-medium text-amber-400 border border-amber-500/30 hover:bg-amber-500/10 transition-all"
                 style={{ fontFamily: 'Syne, sans-serif' }}
               >
@@ -243,7 +246,7 @@ export default function Navbar() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: navLinks.length * 0.06 }}
-                onClick={() => window.location.href = "/painel"}
+                onClick={() => handleNav("/painel", true)}
                 className="text-left px-4 py-3 text-base font-medium text-amber-400 hover:bg-amber-500/10 rounded-xl transition-all border border-amber-500/20"
                 style={{ fontFamily: 'DM Sans, sans-serif' }}
               >

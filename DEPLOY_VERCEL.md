@@ -4,7 +4,7 @@
 
 - Conta no [Vercel](https://vercel.com)
 - Repositório no GitHub: `italodevjs/devhosting`
-- Chave da API Groq: `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`
+- Chave da API Groq: `SUA_CHAVE_AQUI`
 
 ---
 
@@ -33,7 +33,7 @@ Clique em **"Environment Variables"** e adicione:
 
 | Nome | Valor |
 |------|-------|
-| `GROQ_API_KEY` | `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` |
+| `GROQ_API_KEY` | `SUA_CHAVE_AQUI` |
 
 ### 4. Deploy
 
