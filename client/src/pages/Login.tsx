@@ -6,29 +6,18 @@ import { Input } from "@/components/ui/input";
 import { useLocation } from "wouter";
 import { getLoginUrl } from "@/const";
 import { trpc } from "@/lib/trpc";
-import { useToast } from "@/hooks/use-toast";
 
 export default function Login() {
   const [, setLocation] = useLocation();
-  const { toast } = useToast();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
 
   const loginMutation = trpc.auth.login.useMutation({
     onSuccess: () => {
-      toast({
-        title: "Login realizado!",
-        description: "Bem-vindo de volta ao DevHosting.",
-      });
       setLocation("/painel");
     },
     onError: (error) => {
-      toast({
-        variant: "destructive",
-        title: "Erro no login",
-        description: error.message,
-      });
+      alert(error.message);
     },
   });
 
