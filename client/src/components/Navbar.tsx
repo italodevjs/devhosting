@@ -149,7 +149,7 @@ export default function Navbar() {
               <motion.button
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
-                onClick={() => handleNav("/painel", true)}
+                onClick={() => handleNav("/login", true)}
                 className="px-4 py-2 rounded-xl text-sm font-medium text-amber-400 border border-amber-500/30 hover:bg-amber-500/10 transition-all"
                 style={{ fontFamily: 'Syne, sans-serif' }}
               >
@@ -246,7 +246,7 @@ export default function Navbar() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: navLinks.length * 0.06 }}
-                onClick={() => handleNav("/painel", true)}
+                onClick={() => handleNav("/login", true)}
                 className="text-left px-4 py-3 text-base font-medium text-amber-400 hover:bg-amber-500/10 rounded-xl transition-all border border-amber-500/20"
                 style={{ fontFamily: 'DM Sans, sans-serif' }}
               >

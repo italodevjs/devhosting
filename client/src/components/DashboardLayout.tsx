@@ -78,36 +78,14 @@ export default function DashboardLayout({
     return <DashboardLayoutSkeleton />;
   }
 
-  if (!user) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-zinc-950">
-        <div className="flex flex-col items-center gap-8 p-8 max-w-md w-full">
-          {/* Logo */}
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-14 h-14 bg-amber-500/10 border border-amber-500/20 rounded-2xl flex items-center justify-center">
-              <Server className="w-7 h-7 text-amber-400" />
-            </div>
-            <div className="text-center">
-              <h1 className="text-2xl font-bold text-white tracking-tight">
-                DevHosting
-              </h1>
-              <p className="text-sm text-zinc-400 mt-1">
-                Faça login para acessar o painel
-              </p>
-            </div>
-          </div>
-          <Button
-            onClick={() => {
-              window.location.href = getLoginUrl();
-            }}
-            size="lg"
-            className="w-full bg-amber-500 hover:bg-amber-400 text-black font-semibold shadow-lg shadow-amber-500/20"
-          >
-            Entrar na conta
-          </Button>
-        </div>
-      </div>
-    );
+  useEffect(() => {
+    if (!loading && !user) {
+      setLocation("/login");
+    }
+  }, [loading, user, setLocation]);
+
+  if (loading || !user) {
+    return <DashboardLayoutSkeleton />;
   }
 
   return (

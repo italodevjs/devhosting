@@ -19,6 +19,7 @@ import Contact from "./pages/Contact";
 import DomainSearch from "./pages/DomainSearch";
 import CookiesPage from "./pages/Cookies";
 import Dashboard from "./pages/Dashboard";
+import Login from "./pages/Login";
 
 function Router() {
   return (
@@ -38,6 +39,7 @@ function Router() {
       <Route path={"/dominios"} component={DomainSearch} />
       <Route path={"/domains"} component={DomainSearch} />
       <Route path={"/cookies"} component={CookiesPage} />
+      <Route path={"/login"} component={Login} />
       <Route path={"/painel"} component={Dashboard} />
       <Route path={"/painel/:rest*"} component={Dashboard} />
       <Route path={"/404"} component={NotFound} />
