@@ -178,8 +178,8 @@ function DashboardLayoutContent({
 
   return (
     <>
-      <div className="relative" ref={sidebarRef}>
-        <Sidebar collapsible="icon" className="border-r border-zinc-800 bg-zinc-950" disableTransition={isResizing}>
+      <div className="relative flex" ref={sidebarRef}>
+        <Sidebar collapsible="icon" className="border-r border-zinc-800 bg-zinc-950 z-50" disableTransition={isResizing}>
           {/* Header */}
           <SidebarHeader className="h-16 justify-center border-b border-zinc-800">
             <div className="flex items-center gap-3 px-2 w-full">
@@ -316,23 +316,21 @@ function DashboardLayoutContent({
       </div>
 
       <SidebarInset className="bg-zinc-950">
-        {/* Mobile header */}
-        {isMobile && (
-          <div className="flex border-b border-zinc-800 h-14 items-center justify-between bg-zinc-950 px-4 sticky top-0 z-40">
-            <div className="flex items-center gap-3">
-              <SidebarTrigger className="h-8 w-8 rounded-lg bg-zinc-900 text-zinc-400" />
-              <span className="text-sm font-semibold text-white">
-                {activeMenuItem?.label ?? "Painel"}
-              </span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 bg-amber-500/20 rounded-md flex items-center justify-center">
-                <Server className="w-3.5 h-3.5 text-amber-400" />
-              </div>
-              <span className="font-bold text-white text-sm">DevHosting</span>
-            </div>
+        {/* Responsive header */}
+        <div className="flex md:hidden border-b border-zinc-800 h-14 items-center justify-between bg-zinc-950 px-4 sticky top-0 z-40">
+          <div className="flex items-center gap-3">
+            <SidebarTrigger className="h-9 w-9 flex items-center justify-center rounded-lg bg-zinc-900 border border-zinc-800 text-amber-400" />
+            <span className="text-sm font-semibold text-white">
+              {activeMenuItem?.label ?? "Painel"}
+            </span>
           </div>
-        )}
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 bg-amber-500/20 rounded-md flex items-center justify-center">
+              <Server className="w-3.5 h-3.5 text-amber-400" />
+            </div>
+            <span className="font-bold text-white text-sm">DevHosting</span>
+          </div>
+        </div>
         <main className="flex-1 p-4 md:p-6">{children}</main>
       </SidebarInset>
     </>
